@@ -28,7 +28,7 @@
           <div class="myCenter">
             <h1>登录</h1>
             <input v-model="account" type="text" placeholder="用户名/邮箱/手机号">
-            <input v-model="password" type="password" placeholder="密码">
+            <input v-model="password" type="password" placeholder="密码" @keydown.enter="login()">
             <a href="#" @click="changeDialog('找回密码')">忘记密码？</a>
             <button @click="login()">登录</button>
           </div>
