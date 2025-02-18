@@ -75,7 +75,7 @@ function initWidget(config) {
 
 function loadWidget(config) {
   // 配置路径
-  let {waifuPath, cdnPath} = config;
+  let { waifuPath, cdnPath } = config;
   if (!cdnPath.endsWith("/")) cdnPath += "/";
   let modelList, idx = 0;
 
@@ -190,17 +190,12 @@ function loadWidget(config) {
 
   // 初始化模型
   (function initModel() {
-    let modelId = localStorage.getItem("modelId");
-    if (modelId === null) {
-      // 首次访问加载 指定模型 的 指定材质
-      modelId = 5; // 模型 ID
-    }
-    loadModel(modelId);
+    loadModel("嘀嘀嘀嘀~");
     fetch(waifuPath)
       .then(response => response.json())
       .then(result => {
         window.addEventListener("mouseover", event => {
-          for (let {selector, text} of result.mouseover) {
+          for (let { selector, text } of result.mouseover) {
             if (!event.target.matches(selector)) continue;
             text = randomSelection(text);
             text = text.replace("{text}", event.target.innerText);
@@ -209,7 +204,7 @@ function loadWidget(config) {
           }
         });
         window.addEventListener("click", event => {
-          for (let {selector, text} of result.click) {
+          for (let { selector, text } of result.click) {
             if (!event.target.matches(selector)) continue;
             text = randomSelection(text);
             text = text.replace("{text}", event.target.innerText);
@@ -217,7 +212,7 @@ function loadWidget(config) {
             return;
           }
         });
-        result.seasons.forEach(({date, text}) => {
+        result.seasons.forEach(({ date, text }) => {
           const now = new Date(),
             after = date.split("-")[0],
             before = date.split("-")[1] || after;
@@ -233,34 +228,34 @@ function loadWidget(config) {
   // 模型集合
   async function loadModelList() {
     const response = await fetch(`${cdnPath}model_list.json`);
-    modelList = await response.json();
+    const modelJson = await response.json();
+    modelList = [];
+    if (modelJson) {
+      for (let mods of modelJson.models) {
+        Array.isArray(mods) ? modelList.push(...mods) : modelList.push(mods);
+      }
+    }
   }
 
   // 载入模型
-  async function loadModel(modelId, message) {
-    localStorage.setItem("modelId", modelId);
+  async function loadModel(message) {
     showMessage(message, 4000, 10);
     if (!modelList) await loadModelList();
-    // const target = randomSelection(modelList.models[modelId]);
-    const target = "HyperdimensionNeptunia/blanc_swimwear";
-    loadlive2d("live2d", `${cdnPath}model/${target}/index.json`);
+    let modelName = localStorage.getItem("modelName");
+    if (!modelName) {
+      modelName = "Potion-Maker/Pio";
+      localStorage.setItem("modelName", modelName);
+    }
+    loadlive2d("live2d", `${cdnPath}model/${modelName}/index.json`);
   }
 
-  // 换肤
+  // 换人、换肤
   async function loadRandModel() {
-    const modelId = localStorage.getItem("modelId");
     if (!modelList) await loadModelList();
-    const target = randomSelection(modelList.models[modelId]);
-    loadlive2d("live2d", `${cdnPath}model/${target}/index.json`);
+    const modelName = randomSelection(modelList);
+    localStorage.setItem("modelName", modelName);
+    loadlive2d("live2d", `${cdnPath}model/${modelName}/index.json`);
     showMessage("我的新衣服好看嘛？", 4000, 10);
-  }
-
-  // 换人
-  async function loadOtherModel() {
-    let modelId = localStorage.getItem("modelId");
-    if (!modelList) await loadModelList();
-    const index = (++modelId >= modelList.models.length) ? 0 : modelId;
-    loadModel(index, modelList.messages[index]);
   }
 
   // 转换鼠标动画
@@ -292,7 +287,7 @@ function loadWidget(config) {
       "color": "#ff6651"
     });
     $("body").append(span);
-    span.animate({"top": y - 180, "opacity": 0}, 1500, function () {
+    span.animate({ "top": y - 180, "opacity": 0 }, 1500, function () {
       span.remove();
     });
   }
