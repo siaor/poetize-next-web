@@ -1,13 +1,13 @@
 export default {
-  // 测试环境
-  baseURL: "http://localhost:8081",
-  imBaseURL: "http://localhost:81/im",
-  webURL: "http://localhost",
+  // 测试环境，todo:抽离到系统配置
+  //baseURL: "http://localhost:5241",
+  //imBaseURL: "http://localhost:81/im",
+  //webURL: "http://localhost",
 
   // 生产环境
-  // webURL: location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : ''),
-  // baseURL: location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : '') + "/api",
-  // imBaseURL: location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : '') + "/im",
+  baseURL: location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : '') + "/api",
+  imBaseURL: location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : '') + "/im",
+  webURL: location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : ''),
 
   host: location.hostname + (location.port ? ':' + location.port : ''),
 
@@ -21,7 +21,7 @@ export default {
   //前后端定义的密钥，AES使用16位
   cryptojs_key: "sarasarasarasara",
 
-  friendWebName: "POETIZE",
+  friendWebName: "POETIZE-NEXT",
   friendUrl: location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : ''),
   friendAvatar: "https://s1.ax1x.com/2022/11/10/z9E7X4.jpg",
   friendIntroduction: "这是一个 Vue2 Vue3 与 SpringBoot 结合的产物～",

@@ -429,16 +429,16 @@
       buildCssPicture() {
         let root = document.querySelector(":root");
         let webStaticResourcePrefix = this.$store.state.sysConfig['webStaticResourcePrefix'];
-        root.style.setProperty("--commentURL", "url(" + webStaticResourcePrefix + "assets/commentURL.png)");
-        root.style.setProperty("--springBg", "url(" + webStaticResourcePrefix + "assets/springBg.png)");
-        root.style.setProperty("--admireImage", "url(" + webStaticResourcePrefix + "assets/admireImage.jpg)");
-        root.style.setProperty("--toTop", "url(" + webStaticResourcePrefix + "assets/toTop.png)");
-        root.style.setProperty("--bannerWave1", "url(" + webStaticResourcePrefix + "assets/bannerWave1.png) repeat-x");
-        root.style.setProperty("--bannerWave2", "url(" + webStaticResourcePrefix + "assets/bannerWave2.png) repeat-x");
-        root.style.setProperty("--backgroundPicture", "url(" + webStaticResourcePrefix + "assets/backgroundPicture.jpg)");
-        root.style.setProperty("--toolbar", "url(" + webStaticResourcePrefix + "assets/toolbar.jpg)");
-        root.style.setProperty("--love", "url(" + webStaticResourcePrefix + "assets/love.jpg)");
-        const font = new FontFace("poetize-font", "url(" + webStaticResourcePrefix + "assets/font.woff2)");
+        root.style.setProperty("--commentURL", "url(" + webStaticResourcePrefix + "sys/commentURL.png)");
+        root.style.setProperty("--springBg", "url(" + webStaticResourcePrefix + "sys/springBg.png)");
+        root.style.setProperty("--admireImage", "url(" + webStaticResourcePrefix + "sys/admireImage.jpg)");
+        root.style.setProperty("--toTop", "url(" + webStaticResourcePrefix + "sys/toTop.png)");
+        root.style.setProperty("--bannerWave1", "url(" + webStaticResourcePrefix + "sys/bannerWave1.png) repeat-x");
+        root.style.setProperty("--bannerWave2", "url(" + webStaticResourcePrefix + "sys/bannerWave2.png) repeat-x");
+        root.style.setProperty("--backgroundPicture", "url(" + webStaticResourcePrefix + "sys/backgroundPicture.jpg)");
+        root.style.setProperty("--toolbar", "url(" + webStaticResourcePrefix + "sys/toolbar.jpg)");
+        root.style.setProperty("--love", "url(" + webStaticResourcePrefix + "sys/love.jpg)");
+        const font = new FontFace("poetize-font", "url(" + webStaticResourcePrefix + "sys/font.woff2)");
         font.load();
         document.fonts.add(font);
       },
