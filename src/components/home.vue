@@ -3,28 +3,25 @@
     <!-- el过渡动画 -->
     <transition name="el-fade-in-linear">
       <!-- 导航栏 -->
-      <div v-show="toolbar.visible || ($common.mobile() || mobile)"
-           @mouseenter="hoverEnter = true"
-           @mouseleave="hoverEnter = false"
-           :class="[{ enter: toolbar.enter }, { hoverEnter: (hoverEnter || this.$route.path === '/favorite' || this.$route.path === '/travel') && !toolbar.enter }]"
-           class="toolbar-content myBetween">
+      <div v-show="toolbar.visible || ($common.mobile() || mobile)" @mouseenter="hoverEnter = true"
+        @mouseleave="hoverEnter = false"
+        :class="[{ enter: toolbar.enter }, { hoverEnter: (hoverEnter || this.$route.path === '/favorite' || this.$route.path === '/travel') && !toolbar.enter }]"
+        class="toolbar-content myBetween">
         <!-- 网站名称 -->
         <div class="toolbar-title">
-          <h2 @click="$router.push({path: '/'})">{{$store.state.webInfo.webName}}</h2>
+          <h2 @click="$router.push({ path: '/' })">{{ $store.state.webInfo.webName }}</h2>
         </div>
 
         <!-- 手机导航按钮 -->
-        <div v-if="$common.mobile() || mobile"
-             class="toolbar-mobile-menu"
-             @click="toolbarDrawer = !toolbarDrawer"
-             :class="{ enter: toolbar.enter }">
+        <div v-if="$common.mobile() || mobile" class="toolbar-mobile-menu" @click="toolbarDrawer = !toolbarDrawer"
+          :class="{ enter: toolbar.enter }">
           <i class="el-icon-s-operation"></i>
         </div>
 
         <!-- 导航列表 -->
         <div v-else>
           <ul class="scroll-menu">
-            <li @click="$router.push({path: '/'})">
+            <li @click="$router.push({ path: '/' })">
               <div class="my-menu">
                 🏡 <span>首页</span>
               </div>
@@ -33,50 +30,50 @@
             <el-dropdown :hide-timeout="500" placement="bottom">
               <li>
                 <div class="my-menu">
-                  📒 <span>记录</span>
+                  📒 <span>专栏</span>
                 </div>
               </li>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item v-for="(sort, index) in sortInfo" :key="index">
-                  <div @click="$router.push({path: '/sort', query: {sortId: sort.id}})">
-                    {{sort.sortName}}
+                  <div @click="$router.push({ path: '/sort', query: { sortId: sort.id } })">
+                    {{ sort.sortName }}
                   </div>
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
 
             <!-- 家 -->
-            <li @click="$router.push({path: '/love'})">
+            <li @click="$router.push({ path: '/love' })">
               <div class="my-menu">
                 ❤️‍🔥 <span>家</span>
               </div>
             </li>
 
-<!--            &lt;!&ndash; 旅拍 &ndash;&gt;-->
-<!--            <li @click="$router.push({path: '/travel'})">-->
-<!--              <div class="my-menu">-->
-<!--                🌏 <span>旅拍</span>-->
-<!--              </div>-->
-<!--            </li>-->
+            <!-- 旅拍 -->
+            <li @click="$router.push({ path: '/travel' })">
+              <div class="my-menu">
+                🌏 <span>旅拍</span>
+              </div>
+            </li>
 
             <!-- 百宝箱 -->
-            <li @click="$router.push({path: '/favorite'})">
+            <li @click="$router.push({ path: '/favorite' })">
               <div class="my-menu">
                 🧰 <span>百宝箱</span>
               </div>
             </li>
 
-            <!-- 留言 -->
-            <li @click="$router.push({path: '/message'})">
+            <!-- 树洞 -->
+            <li @click="$router.push({ path: '/message' })">
               <div class="my-menu">
-                📪 <span>留言</span>
+                📪 <span>树洞</span>
               </div>
             </li>
 
-            <!-- 聊天室 -->
+            <!-- 微聊 -->
             <li @click="goIm()">
               <div class="my-menu">
-                💬 <span>联系我</span>
+                💬 <span>微聊</span>
               </div>
             </li>
 
@@ -90,21 +87,20 @@
             <!-- 个人中心 -->
             <li>
               <el-dropdown placement="bottom">
-                <el-avatar class="user-avatar" :size="36"
-                           style="margin-top: 12px"
-                           :src="!$common.isEmpty($store.state.currentUser)?$store.state.currentUser.avatar:$store.state.webInfo.avatar">
+                <el-avatar class="user-avatar" :size="36" style="margin-top: 12px"
+                  :src="!$common.isEmpty($store.state.currentUser) ? $store.state.currentUser.avatar : $store.state.webInfo.avatar">
                 </el-avatar>
 
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item @click.native="$router.push({path: '/user'})"
-                                    v-if="!$common.isEmpty($store.state.currentUser)">
+                  <el-dropdown-item @click.native="$router.push({ path: '/user' })"
+                    v-if="!$common.isEmpty($store.state.currentUser)">
                     <i class="fa fa-user-circle" aria-hidden="true"></i> <span>个人中心</span>
                   </el-dropdown-item>
                   <el-dropdown-item @click.native="logout()" v-if="!$common.isEmpty($store.state.currentUser)">
                     <i class="fa fa-sign-out" aria-hidden="true"></i> <span>退出</span>
                   </el-dropdown-item>
-                  <el-dropdown-item @click.native="$router.push({path: '/user'})"
-                                    v-if="$common.isEmpty($store.state.currentUser)">
+                  <el-dropdown-item @click.native="$router.push({ path: '/user' })"
+                    v-if="$common.isEmpty($store.state.currentUser)">
                     <i class="fa fa-sign-in" aria-hidden="true"></i> <span>登陆</span>
                   </el-dropdown-item>
                 </el-dropdown-menu>
@@ -120,7 +116,7 @@
     </div>
 
     <!-- 回到顶部按钮 -->
-<!--    <div href="#" class="cd-top" v-if="!$common.mobile()" @click="toTop()"></div>-->
+    <!--    <div href="#" class="cd-top" v-if="!$common.mobile()" @click="toTop()"></div>-->
 
     <div class="toolButton">
       <div class="backTop" v-if="toolButton" @click="toTop()">
@@ -135,9 +131,7 @@
         </svg>
       </div>
 
-      <el-popover placement="left"
-                  :close-delay="500"
-                  trigger="hover">
+      <el-popover placement="left" :close-delay="500" trigger="hover">
         <div slot="reference">
           <i class="fa fa-cog iconRotate" style="color: var(--black)" aria-hidden="true"></i>
         </div>
@@ -156,26 +150,21 @@
     </div>
 
     <!-- 点击动画 -->
-    <canvas v-if="mouseAnimation" id="mousedown"
-            style="position:fixed;left:0;top:0;pointer-events:none;z-index: 1000">
+    <canvas v-if="mouseAnimation" id="mousedown" style="position:fixed;left:0;top:0;pointer-events:none;z-index: 1000">
     </canvas>
 
     <!-- 图片预览 -->
     <div id="outerImg">
       <div id="innerImg" style="position:absolute">
-        <img id="bigImg" src=""/>
+        <img id="bigImg" src="" />
       </div>
     </div>
 
-    <el-drawer :visible.sync="toolbarDrawer"
-               :show-close="false"
-               size="65%"
-               custom-class="toolbarDrawer"
-               title="欢迎光临"
-               direction="ltr">
+    <el-drawer :visible.sync="toolbarDrawer" :show-close="false" size="65%" custom-class="toolbarDrawer" title="欢迎光临"
+      direction="ltr">
       <div>
         <ul class="small-menu">
-          <li @click="smallMenu({path: '/'})">
+          <li @click="smallMenu({ path: '/' })">
             <div>
               🏡 <span>首页</span>
             </div>
@@ -183,50 +172,48 @@
 
           <li>
             <div>
-              📒 <span>记录</span>
+              📒 <span>专栏</span>
             </div>
             <div>
-              <div v-for="(menu, index) in sortInfo"
-                   :key="index"
-                   class="sortMenu"
-                   @click="smallMenu({path: '/sort', query: {sortId: menu.id}})">
-                {{menu.sortName}}
+              <div v-for="(menu, index) in sortInfo" :key="index" class="sortMenu"
+                @click="smallMenu({ path: '/sort', query: { sortId: menu.id } })">
+                {{ menu.sortName }}
               </div>
             </div>
           </li>
 
           <!-- 家 -->
-          <li @click="smallMenu({path: '/love'})">
+          <li @click="smallMenu({ path: '/love' })">
             <div>
               ❤️‍🔥 <span>家</span>
             </div>
           </li>
 
-<!--          &lt;!&ndash; 旅拍 &ndash;&gt;-->
-<!--          <li @click="smallMenu({path: '/travel'})">-->
-<!--            <div>-->
-<!--              🌏 <span>旅拍</span>-->
-<!--            </div>-->
-<!--          </li>-->
+          <!-- 旅拍 -->
+          <li @click="smallMenu({ path: '/travel' })">
+            <div>
+              🌏 <span>旅拍</span>
+            </div>
+          </li>
 
           <!-- 百宝箱 -->
-          <li @click="smallMenu({path: '/favorite'})">
+          <li @click="smallMenu({ path: '/favorite' })">
             <div>
               🧰 <span>百宝箱</span>
             </div>
           </li>
 
-          <!-- 留言 -->
-          <li @click="smallMenu({path: '/message'})">
+          <!-- 树洞 -->
+          <li @click="smallMenu({ path: '/message' })">
             <div>
-              📪 <span>留言</span>
+              📪 <span>树洞</span>
             </div>
           </li>
 
-          <!-- 聊天室 -->
+          <!-- 微聊 -->
           <li @click="goIm()">
             <div>
-              💬 <span>联系我</span>
+              💬 <span>微聊</span>
             </div>
           </li>
 
@@ -238,7 +225,7 @@
           </li>
 
           <template v-if="$common.isEmpty($store.state.currentUser)">
-            <li @click="smallMenu({path: '/user'})">
+            <li @click="smallMenu({ path: '/user' })">
               <div>
                 <i class="fa fa-sign-in" aria-hidden="true"></i>
                 <span>&nbsp;登录</span>
@@ -246,7 +233,7 @@
             </li>
           </template>
           <template v-else>
-            <li @click="smallMenu({path: '/user'})">
+            <li @click="smallMenu({ path: '/user' })">
               <div>
                 <i class="fa fa-user-circle" aria-hidden="true"></i>
                 <span>&nbsp;个人中心</span>
@@ -266,28 +253,204 @@
 </template>
 
 <script>
-  import mousedown from '../utils/mousedown';
+import mousedown from '../utils/mousedown';
 
-  export default {
-    data() {
-      return {
-        toolButton: false,
-        hoverEnter: false,
-        mouseAnimation: false,
-        isDark: false,
-        scrollTop: 0,
-        toolbarDrawer: false,
-        mobile: false
+export default {
+  data() {
+    return {
+      toolButton: false,
+      hoverEnter: false,
+      mouseAnimation: false,
+      isDark: false,
+      scrollTop: 0,
+      toolbarDrawer: false,
+      mobile: false
+    }
+  },
+  mounted() {
+    if (this.mouseAnimation) {
+      mousedown();
+    }
+    window.addEventListener("scroll", this.onScrollPage);
+    if (this.isDaylight()) {
+      this.isDark = true;
+      let root = document.querySelector(":root");
+      root.style.setProperty("--background", "#272727");
+      root.style.setProperty("--fontColor", "white");
+      root.style.setProperty("--borderColor", "#4F4F4F");
+      root.style.setProperty("--borderHoverColor", "black");
+      root.style.setProperty("--articleFontColor", "#E4E4E4");
+      root.style.setProperty("--articleGreyFontColor", "#D4D4D4");
+      root.style.setProperty("--commentContent", "#D4D4D4");
+      root.style.setProperty("--favoriteBg", "#1e1e1e");
+    }
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.onScrollPage);
+  },
+  watch: {
+    scrollTop(scrollTop, oldScrollTop) {
+      //如果滑动距离超过屏幕高度三分之一视为进入页面，背景改为白色
+      let enter = scrollTop > window.innerHeight / 2;
+      const top = scrollTop - oldScrollTop < 0;
+      let isShow = scrollTop - window.innerHeight > 30;
+      this.toolButton = isShow;
+      if (isShow && !this.$common.mobile()) {
+        if (window.innerHeight > 950) {
+          $(".cd-top").css("top", "0");
+        } else {
+          $(".cd-top").css("top", window.innerHeight - 950 + "px");
+        }
+      } else if (!isShow && !this.$common.mobile()) {
+        $(".cd-top").css("top", "-900px");
+      }
+
+      //导航栏显示与颜色
+      let toolbarStatus = {
+        enter: enter,
+        visible: top,
+      };
+      this.$store.commit("changeToolbarStatus", toolbarStatus);
+    },
+  },
+  created() {
+    let toolbarStatus = {
+      enter: false,
+      visible: true,
+    };
+    this.$store.commit("changeToolbarStatus", toolbarStatus);
+    this.getWebInfo();
+    this.getSysConfig();
+    this.getSortInfo();
+
+    this.mobile = document.body.clientWidth < 1100;
+
+    window.addEventListener('resize', () => {
+      let docWidth = document.body.clientWidth;
+      if (docWidth < 810) {
+        this.mobile = true;
+      } else {
+        this.mobile = false;
+      }
+    });
+  },
+  computed: {
+    toolbar() {
+      return this.$store.state.toolbar;
+    },
+    sortInfo() {
+      return this.$store.state.sortInfo;
+    }
+  },
+  methods: {
+    smallMenu(data) {
+      this.$router.push(data)
+      this.toolbarDrawer = false;
+    },
+
+    smallMenuLogout() {
+      this.logout();
+      this.toolbarDrawer = false;
+    },
+
+    goIm() {
+      if (this.$common.isEmpty(this.$store.state.currentUser)) {
+        this.$message({
+          message: "请先登录！",
+          type: "error"
+        });
+        setTimeout(() => {
+          this.$router.push({ path: '/user' })
+        }, 1280);
+      } else {
+        let userToken = this.$common.encrypt(localStorage.getItem("userToken"));
+        window.open(this.$constant.imBaseURL + "?userToken=" + userToken + "&defaultStoreType=" + localStorage.getItem("defaultStoreType"));
       }
     },
-    mounted() {
-      if (this.mouseAnimation) {
-        mousedown();
-      }
-      window.addEventListener("scroll", this.onScrollPage);
-      if (this.isDaylight()) {
-        this.isDark = true;
-        let root = document.querySelector(":root");
+
+    goAdmin() {
+      window.open(this.$constant.webURL + "/admin");
+    },
+
+    logout() {
+      this.$http.get(this.$constant.baseURL + "/user/logout")
+        .then((res) => {
+        })
+        .catch((error) => {
+          this.$message({
+            message: error.message,
+            type: "error"
+          });
+        });
+      this.$store.commit("loadCurrentUser", {});
+      localStorage.removeItem("userToken");
+      this.$router.push({ path: '/' });
+    },
+    getWebInfo() {
+      this.$http.get(this.$constant.baseURL + "/webInfo/getWebInfo")
+        .then((res) => {
+          if (!this.$common.isEmpty(res.data)) {
+            this.$store.commit("loadWebInfo", res.data);
+            localStorage.setItem("defaultStoreType", res.data.defaultStoreType);
+          }
+        })
+        .catch((error) => {
+          this.$message({
+            message: error.message,
+            type: "error"
+          });
+        });
+    },
+    getSysConfig() {
+      this.$http.get(this.$constant.baseURL + "/sysConfig/listSysConfig")
+        .then((res) => {
+          if (!this.$common.isEmpty(res.data)) {
+            this.$store.commit("loadSysConfig", res.data);
+            this.buildCssPicture();
+          }
+        })
+        .catch((error) => {
+          this.$message({
+            message: error.message,
+            type: "error"
+          });
+        });
+    },
+    buildCssPicture() {
+      let root = document.querySelector(":root");
+      let webStaticResourcePrefix = this.$store.state.sysConfig['webStaticResourcePrefix'];
+      root.style.setProperty("--commentURL", "url(" + webStaticResourcePrefix + "sys/commentURL.png)");
+      root.style.setProperty("--springBg", "url(" + webStaticResourcePrefix + "sys/springBg.png)");
+      root.style.setProperty("--admireImage", "url(" + webStaticResourcePrefix + "sys/admireImage.jpg)");
+      root.style.setProperty("--toTop", "url(" + webStaticResourcePrefix + "sys/toTop.png)");
+      root.style.setProperty("--bannerWave1", "url(" + webStaticResourcePrefix + "sys/bannerWave1.png) repeat-x");
+      root.style.setProperty("--bannerWave2", "url(" + webStaticResourcePrefix + "sys/bannerWave2.png) repeat-x");
+      root.style.setProperty("--backgroundPicture", "url(" + webStaticResourcePrefix + "sys/backgroundPicture.jpg)");
+      root.style.setProperty("--toolbar", "url(" + webStaticResourcePrefix + "sys/toolbar.jpg)");
+      root.style.setProperty("--love", "url(" + webStaticResourcePrefix + "sys/love.jpg)");
+      const font = new FontFace("poetize-font", "url(" + webStaticResourcePrefix + "sys/font.woff2)");
+      font.load();
+      document.fonts.add(font);
+    },
+    getSortInfo() {
+      this.$http.get(this.$constant.baseURL + "/webInfo/getSortInfo")
+        .then((res) => {
+          if (!this.$common.isEmpty(res.data)) {
+            this.$store.commit("loadSortInfo", res.data);
+          }
+        })
+        .catch((error) => {
+          this.$message({
+            message: error.message,
+            type: "error"
+          });
+        });
+    },
+    changeColor() {
+      this.isDark = !this.isDark;
+      let root = document.querySelector(":root");
+
+      if (this.isDark) {
         root.style.setProperty("--background", "#272727");
         root.style.setProperty("--fontColor", "white");
         root.style.setProperty("--borderColor", "#4F4F4F");
@@ -296,401 +459,227 @@
         root.style.setProperty("--articleGreyFontColor", "#D4D4D4");
         root.style.setProperty("--commentContent", "#D4D4D4");
         root.style.setProperty("--favoriteBg", "#1e1e1e");
+      } else {
+        root.style.setProperty("--background", "white");
+        root.style.setProperty("--fontColor", "black");
+        root.style.setProperty("--borderColor", "rgba(0, 0, 0, 0.5)");
+        root.style.setProperty("--borderHoverColor", "rgba(110, 110, 110, 0.4)");
+        root.style.setProperty("--articleFontColor", "#1F1F1F");
+        root.style.setProperty("--articleGreyFontColor", "#616161");
+        root.style.setProperty("--commentContent", "#F7F9FE");
+        root.style.setProperty("--favoriteBg", "#f7f9fe");
       }
     },
-    destroyed() {
-      window.removeEventListener("scroll", this.onScrollPage);
-    },
-    watch: {
-      scrollTop(scrollTop, oldScrollTop) {
-        //如果滑动距离超过屏幕高度三分之一视为进入页面，背景改为白色
-        let enter = scrollTop > window.innerHeight / 2;
-        const top = scrollTop - oldScrollTop < 0;
-        let isShow = scrollTop - window.innerHeight > 30;
-        this.toolButton = isShow;
-        if (isShow && !this.$common.mobile()) {
-          if (window.innerHeight > 950) {
-            $(".cd-top").css("top", "0");
-          } else {
-            $(".cd-top").css("top", window.innerHeight - 950 + "px");
-          }
-        } else if (!isShow && !this.$common.mobile()) {
-          $(".cd-top").css("top", "-900px");
-        }
-
-        //导航栏显示与颜色
-        let toolbarStatus = {
-          enter: enter,
-          visible: top,
-        };
-        this.$store.commit("changeToolbarStatus", toolbarStatus);
-      },
-    },
-    created() {
-      let toolbarStatus = {
-        enter: false,
-        visible: true,
-      };
-      this.$store.commit("changeToolbarStatus", toolbarStatus);
-      this.getWebInfo();
-      this.getSysConfig();
-      this.getSortInfo();
-
-      this.mobile = document.body.clientWidth < 1100;
-
-      window.addEventListener('resize', () => {
-        let docWidth = document.body.clientWidth;
-        if (docWidth < 810) {
-          this.mobile = true;
-        } else {
-          this.mobile = false;
-        }
+    toTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
       });
     },
-    computed: {
-      toolbar() {
-        return this.$store.state.toolbar;
-      },
-      sortInfo() {
-        return this.$store.state.sortInfo;
+    onScrollPage() {
+      this.scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    },
+    isDaylight() {
+      let currDate = new Date();
+      if (currDate.getHours() > 22 || currDate.getHours() < 7) {
+        return true;
+      } else {
+        return false;
       }
     },
-    methods: {
-      smallMenu(data) {
-        this.$router.push(data)
-        this.toolbarDrawer = false;
-      },
-
-      smallMenuLogout() {
-        this.logout();
-        this.toolbarDrawer = false;
-      },
-
-      goIm() {
-        if (this.$common.isEmpty(this.$store.state.currentUser)) {
-          this.$message({
-            message: "请先登录！",
-            type: "error"
-          });
-        } else {
-          let userToken = this.$common.encrypt(localStorage.getItem("userToken"));
-          window.open(this.$constant.imBaseURL + "?userToken=" + userToken + "&defaultStoreType=" + localStorage.getItem("defaultStoreType"));
-        }
-      },
-
-      goAdmin() {
-        window.open(this.$constant.webURL + "/admin");
-      },
-
-      logout() {
-        this.$http.get(this.$constant.baseURL + "/user/logout")
-          .then((res) => {
-          })
-          .catch((error) => {
-            this.$message({
-              message: error.message,
-              type: "error"
-            });
-          });
-        this.$store.commit("loadCurrentUser", {});
-        localStorage.removeItem("userToken");
-        this.$router.push({path: '/'});
-      },
-      getWebInfo() {
-        this.$http.get(this.$constant.baseURL + "/webInfo/getWebInfo")
-          .then((res) => {
-            if (!this.$common.isEmpty(res.data)) {
-              this.$store.commit("loadWebInfo", res.data);
-              localStorage.setItem("defaultStoreType", res.data.defaultStoreType);
-            }
-          })
-          .catch((error) => {
-            this.$message({
-              message: error.message,
-              type: "error"
-            });
-          });
-      },
-      getSysConfig() {
-        this.$http.get(this.$constant.baseURL + "/sysConfig/listSysConfig")
-          .then((res) => {
-            if (!this.$common.isEmpty(res.data)) {
-              this.$store.commit("loadSysConfig", res.data);
-              this.buildCssPicture();
-            }
-          })
-          .catch((error) => {
-            this.$message({
-              message: error.message,
-              type: "error"
-            });
-          });
-      },
-      buildCssPicture() {
-        let root = document.querySelector(":root");
-        let webStaticResourcePrefix = this.$store.state.sysConfig['webStaticResourcePrefix'];
-        root.style.setProperty("--commentURL", "url(" + webStaticResourcePrefix + "sys/commentURL.png)");
-        root.style.setProperty("--springBg", "url(" + webStaticResourcePrefix + "sys/springBg.png)");
-        root.style.setProperty("--admireImage", "url(" + webStaticResourcePrefix + "sys/admireImage.jpg)");
-        root.style.setProperty("--toTop", "url(" + webStaticResourcePrefix + "sys/toTop.png)");
-        root.style.setProperty("--bannerWave1", "url(" + webStaticResourcePrefix + "sys/bannerWave1.png) repeat-x");
-        root.style.setProperty("--bannerWave2", "url(" + webStaticResourcePrefix + "sys/bannerWave2.png) repeat-x");
-        root.style.setProperty("--backgroundPicture", "url(" + webStaticResourcePrefix + "sys/backgroundPicture.jpg)");
-        root.style.setProperty("--toolbar", "url(" + webStaticResourcePrefix + "sys/toolbar.jpg)");
-        root.style.setProperty("--love", "url(" + webStaticResourcePrefix + "sys/love.jpg)");
-        const font = new FontFace("poetize-font", "url(" + webStaticResourcePrefix + "sys/font.woff2)");
-        font.load();
-        document.fonts.add(font);
-      },
-      getSortInfo() {
-        this.$http.get(this.$constant.baseURL + "/webInfo/getSortInfo")
-          .then((res) => {
-            if (!this.$common.isEmpty(res.data)) {
-              this.$store.commit("loadSortInfo", res.data);
-            }
-          })
-          .catch((error) => {
-            this.$message({
-              message: error.message,
-              type: "error"
-            });
-          });
-      },
-      changeColor() {
-        this.isDark = !this.isDark;
-        let root = document.querySelector(":root");
-
-        if (this.isDark) {
-          root.style.setProperty("--background", "#272727");
-          root.style.setProperty("--fontColor", "white");
-          root.style.setProperty("--borderColor", "#4F4F4F");
-          root.style.setProperty("--borderHoverColor", "black");
-          root.style.setProperty("--articleFontColor", "#E4E4E4");
-          root.style.setProperty("--articleGreyFontColor", "#D4D4D4");
-          root.style.setProperty("--commentContent", "#D4D4D4");
-          root.style.setProperty("--favoriteBg", "#1e1e1e");
-        } else {
-          root.style.setProperty("--background", "white");
-          root.style.setProperty("--fontColor", "black");
-          root.style.setProperty("--borderColor", "rgba(0, 0, 0, 0.5)");
-          root.style.setProperty("--borderHoverColor", "rgba(110, 110, 110, 0.4)");
-          root.style.setProperty("--articleFontColor", "#1F1F1F");
-          root.style.setProperty("--articleGreyFontColor", "#616161");
-          root.style.setProperty("--commentContent", "#F7F9FE");
-          root.style.setProperty("--favoriteBg", "#f7f9fe");
-        }
-      },
-      toTop() {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
+    changeMouseAnimation() {
+      this.mouseAnimation = !this.mouseAnimation;
+      if (this.mouseAnimation) {
+        this.$nextTick(() => {
+          mousedown();
         });
-      },
-      onScrollPage() {
-        this.scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-      },
-      isDaylight() {
-        let currDate = new Date();
-        if (currDate.getHours() > 22 || currDate.getHours() < 7) {
-          return true;
-        } else {
-          return false;
-        }
-      },
-      changeMouseAnimation() {
-        this.mouseAnimation = !this.mouseAnimation;
-        if (this.mouseAnimation) {
-          this.$nextTick(() => {
-            mousedown();
-          });
-        }
       }
     }
   }
+}
 </script>
 
 <style scoped>
+.toolbar-content {
+  width: 100%;
+  height: 60px;
+  color: var(--white);
+  /* 固定位置，不随滚动条滚动 */
+  position: fixed;
+  z-index: 100;
+  /* 禁止选中文字 */
+  user-select: none;
+  transition: all 0.3s ease-in-out;
+}
 
-  .toolbar-content {
-    width: 100%;
-    height: 60px;
-    color: var(--white);
-    /* 固定位置，不随滚动条滚动 */
-    position: fixed;
-    z-index: 100;
-    /* 禁止选中文字 */
-    user-select: none;
-    transition: all 0.3s ease-in-out;
-  }
+.toolbar-content.enter {
+  background: var(--toolbarBackground);
+  color: var(--toolbarFont);
+  box-shadow: 0 1px 3px 0 rgba(0, 34, 77, 0.05);
+}
 
-  .toolbar-content.enter {
-    background: var(--toolbarBackground);
-    color: var(--toolbarFont);
-    box-shadow: 0 1px 3px 0 rgba(0, 34, 77, 0.05);
-  }
+.toolbar-content.hoverEnter {
+  background: var(--translucent);
+  box-shadow: 0 1px 3px 0 rgba(0, 34, 77, 0.05);
+}
 
-  .toolbar-content.hoverEnter {
-    background: var(--translucent);
-    box-shadow: 0 1px 3px 0 rgba(0, 34, 77, 0.05);
-  }
+.toolbar-title {
+  margin-left: 30px;
+  cursor: pointer;
+}
 
-  .toolbar-title {
-    margin-left: 30px;
-    cursor: pointer;
-  }
+.toolbar-mobile-menu {
+  font-size: 30px;
+  margin-right: 15px;
+  cursor: pointer;
+}
 
-  .toolbar-mobile-menu {
-    font-size: 30px;
-    margin-right: 15px;
-    cursor: pointer;
-  }
+.scroll-menu {
+  margin: 0 25px 0 0;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0;
+}
 
-  .scroll-menu {
-    margin: 0 25px 0 0;
-    display: flex;
-    justify-content: flex-end;
-    padding: 0;
-  }
+.scroll-menu li {
+  list-style: none;
+  margin: 0 12px;
+  font-size: 17px;
+  height: 60px;
+  line-height: 60px;
+  position: relative;
+  cursor: pointer;
+}
 
-  .scroll-menu li {
-    list-style: none;
-    margin: 0 12px;
-    font-size: 17px;
-    height: 60px;
-    line-height: 60px;
-    position: relative;
-    cursor: pointer;
-  }
+.scroll-menu li:hover .my-menu span {
+  color: var(--themeBackground);
+}
 
-  .scroll-menu li:hover .my-menu span {
-    color: var(--themeBackground);
-  }
+.scroll-menu li:hover .my-menu i {
+  color: var(--themeBackground);
+  animation: scale 1.5s ease-in-out infinite;
+}
 
-  .scroll-menu li:hover .my-menu i {
-    color: var(--themeBackground);
-    animation: scale 1.5s ease-in-out infinite;
-  }
+.scroll-menu li .my-menu:after {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 0;
+  height: 6px;
+  background-color: var(--themeBackground);
+  width: 100%;
+  max-width: 0;
+  transition: max-width 0.25s ease-in-out;
+}
 
-  .scroll-menu li .my-menu:after {
-    content: "";
-    display: block;
-    position: absolute;
-    bottom: 0;
-    height: 6px;
-    background-color: var(--themeBackground);
-    width: 100%;
-    max-width: 0;
-    transition: max-width 0.25s ease-in-out;
-  }
+.scroll-menu li:hover .my-menu:after {
+  max-width: 100%;
+}
 
-  .scroll-menu li:hover .my-menu:after {
-    max-width: 100%;
-  }
+.sortMenu {
+  margin-left: 44px;
+  font-size: 17px;
+  position: relative;
+}
 
-  .sortMenu {
-    margin-left: 44px;
-    font-size: 17px;
-    position: relative;
-  }
+.sortMenu:after {
+  top: 32px;
+  width: 35px;
+  left: 0;
+  height: 2px;
+  background: var(--themeBackground);
+  content: "";
+  border-radius: 1px;
+  position: absolute;
+}
 
-  .sortMenu:after {
-    top: 32px;
-    width: 35px;
-    left: 0;
-    height: 2px;
-    background: var(--themeBackground);
-    content: "";
-    border-radius: 1px;
-    position: absolute;
-  }
+.el-dropdown {
+  font-size: unset;
+  color: unset;
+}
 
-  .el-dropdown {
-    font-size: unset;
-    color: unset;
-  }
+.el-popper[x-placement^=bottom] {
+  margin-top: -8px;
+}
 
-  .el-popper[x-placement^=bottom] {
-    margin-top: -8px;
-  }
+.el-dropdown-menu {
+  padding: 5px 0;
+}
 
-  .el-dropdown-menu {
-    padding: 5px 0;
-  }
+.el-dropdown-menu__item {
+  font-size: unset;
+}
 
-  .el-dropdown-menu__item {
-    font-size: unset;
-  }
+.el-dropdown-menu__item:hover {
+  background-color: var(--white);
+  color: var(--themeBackground);
+}
 
-  .el-dropdown-menu__item:hover {
-    background-color: var(--white);
-    color: var(--themeBackground);
-  }
+.toolButton {
+  position: fixed;
+  right: 3vh;
+  bottom: 3vh;
+  animation: slide-bottom 0.5s ease-in-out both;
+  z-index: 100;
+  cursor: pointer;
+  font-size: 25px;
+  width: 30px;
+}
 
+.my-setting {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.my-setting i {
+  padding: 5px;
+}
+
+.my-setting i:hover {
+  color: var(--themeBackground);
+}
+
+.cd-top {
+  background: var(--toTop) no-repeat center;
+  position: fixed;
+  right: 5vh;
+  top: -900px;
+  z-index: 99;
+  width: 70px;
+  height: 900px;
+  background-size: contain;
+  transition: all 0.5s ease-in-out;
+  cursor: pointer;
+}
+
+.backTop {
+  transition: all 0.3s ease-in;
+  position: relative;
+  top: 0;
+  left: -13px;
+}
+
+.backTop:hover {
+  top: -10px;
+}
+
+#outerImg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+@media screen and (max-width: 400px) {
   .toolButton {
-    position: fixed;
-    right: 3vh;
-    bottom: 3vh;
-    animation: slide-bottom 0.5s ease-in-out both;
-    z-index: 100;
-    cursor: pointer;
-    font-size: 25px;
-    width: 30px;
+    right: 0.5vh;
   }
-
-  .my-setting {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    cursor: pointer;
-    font-size: 20px;
-  }
-
-  .my-setting i {
-    padding: 5px;
-  }
-
-  .my-setting i:hover {
-    color: var(--themeBackground);
-  }
-
-  .cd-top {
-    background: var(--toTop) no-repeat center;
-    position: fixed;
-    right: 5vh;
-    top: -900px;
-    z-index: 99;
-    width: 70px;
-    height: 900px;
-    background-size: contain;
-    transition: all 0.5s ease-in-out;
-    cursor: pointer;
-  }
-
-  .backTop {
-    transition: all 0.3s ease-in;
-    position: relative;
-    top: 0;
-    left: -13px;
-  }
-
-  .backTop:hover {
-    top: -10px;
-  }
-
-  #outerImg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 10;
-    width: 100%;
-    height: 100%;
-    display: none;
-  }
-
-  @media screen and (max-width: 400px) {
-    .toolButton {
-      right: 0.5vh;
-    }
-  }
+}
 </style>
