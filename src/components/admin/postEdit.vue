@@ -26,7 +26,7 @@
       </el-form-item>
 
       <el-form-item label="内容" prop="articleContent">
-        <mavon-editor ref="md" @imgAdd="imgAdd" v-model="article.articleContent"/>
+        <mavon-editor ref="md" @imgAdd="imgAdd" v-model="article.articleContent" :xssOptions="xssOptions"/>
       </el-form-item>
 
       <el-form-item label="是否启用评论" prop="commentStatus">
@@ -154,6 +154,11 @@
           labelId: [
             {required: true, message: '标签', trigger: 'blur'}
           ]
+        },
+        xssOptions: {
+          whiteList: {
+            iframe: ['src','height','width','border','frameborder','framespacing','marginheight','‌scrolling','allowfullscreen']
+          }
         }
       }
     },

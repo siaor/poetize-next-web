@@ -518,7 +518,7 @@
             if (!this.$common.isEmpty(res.data)) {
               this.article = res.data;
               this.getNews();
-              const md = new MarkdownIt({breaks: true}).use(require('markdown-it-multimd-table'));
+              const md = new MarkdownIt({html:true, breaks: true}).use(require('markdown-it-multimd-table'));
               this.articleContentHtml = md.render(this.article.articleContent);
               this.$nextTick(() => {
                 this.$common.imgShow(".entry-content img");
