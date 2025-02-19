@@ -191,37 +191,51 @@ function loadWidget(config) {
   // 初始化模型
   (function initModel() {
     loadModel("嘀嘀嘀嘀~");
+
+    //加载自定义提示语
     fetch(waifuPath)
       .then(response => response.json())
       .then(result => {
-        window.addEventListener("mouseover", event => {
-          for (let { selector, text } of result.mouseover) {
-            if (!event.target.matches(selector)) continue;
-            text = randomSelection(text);
-            text = text.replace("{text}", event.target.innerText);
-            showMessage(text, 4000, 8);
-            return;
-          }
-        });
-        window.addEventListener("click", event => {
-          for (let { selector, text } of result.click) {
-            if (!event.target.matches(selector)) continue;
-            text = randomSelection(text);
-            text = text.replace("{text}", event.target.innerText);
-            showMessage(text, 4000, 8);
-            return;
-          }
-        });
-        result.seasons.forEach(({ date, text }) => {
-          const now = new Date(),
-            after = date.split("-")[0],
-            before = date.split("-")[1] || after;
-          if ((after.split("/")[0] <= now.getMonth() + 1 && now.getMonth() + 1 <= before.split("/")[0]) && (after.split("/")[1] <= now.getDate() && now.getDate() <= before.split("/")[1])) {
-            text = randomSelection(text);
-            text = text.replace("{year}", now.getFullYear());
-            messageArray.push(text);
-          }
-        });
+
+        //鼠标移动触发
+        if(result.mouseover){
+          window.addEventListener("mouseover", event => {
+            for (let { selector, text } of result.mouseover) {
+              if (!event.target.matches(selector)) continue;
+              text = randomSelection(text);
+              text = text.replace("{text}", event.target.innerText);
+              showMessage(text, 4000, 8);
+              return;
+            }
+          });
+        }
+        
+        //鼠标点击触发
+        if(result.click){
+          window.addEventListener("click", event => {
+            for (let { selector, text } of result.click) {
+              if (!event.target.matches(selector)) continue;
+              text = randomSelection(text);
+              text = text.replace("{text}", event.target.innerText);
+              showMessage(text, 4000, 8);
+              return;
+            }
+          });
+        }
+        
+        //每年的指定时间段触发
+        if(result.seasons){
+          result.seasons.forEach(({ date, text }) => {
+            const now = new Date(),
+              after = date.split("-")[0],
+              before = date.split("-")[1] || after;
+            if ((after.split("/")[0] <= now.getMonth() + 1 && now.getMonth() + 1 <= before.split("/")[0]) && (after.split("/")[1] <= now.getDate() && now.getDate() <= before.split("/")[1])) {
+              text = randomSelection(text);
+              text = text.replace("{year}", now.getFullYear());
+              messageArray.push(text);
+            }
+          });
+        }
       });
   })();
 
