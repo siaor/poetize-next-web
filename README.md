@@ -87,37 +87,46 @@ Vue3（IM 聊天室系统）是非必须的。如果部署，则需要依赖博�
 **PS**：先延用之前的文档，后面要重构的。
 </span>
 
+## 安装部署
+
+---
+
+详见：
+[《安装部署手册》](https://blog.siaor.com/article/6)
+
 ## 二次开发
-Vue2：
-1. npm install
-2. npm run serve
-
-Vue3：
-1. npm install
-2. npm run serve
-
-SpringBoot：
-1. 导入SQL文件到数据库（./res/db/sop.sql）
-2. 配置数据库连接（application.yml里面的datasource信息）
-3. 启动（PoetryApplication）
 
 ---
-<span style="color: rgb(234,94,67);">
-**PS**：先延用之前的文档，需要二开的应该不多。
-</span>
 
-## 部署文档
+详见：
+[《开发手册》](https://blog.siaor.com/article/7)
 
 ---
+
 <span style="color: rgb(234,94,67);">
-**PS**：方式真的很多，部署脚本、docker部署，等我一下下，陆续更新！
+**PS**：为了方便相关文档的迭代更新，统一放于博客中。
 </span>
+
 
 ## 展示
 
 ---
 <div align="center" style="color: rgb(234,67,176);text-align: center;">
 来吧！展示！
+</div>
+
+<div align="center" style="color: rgb(25,223,177);">
+以下为部署了POETIZE-NEXT的博主，点击前往他们的博客看看效果吧！
+</div>
+
+<center>
+    <a href="https://blog.siaor.com" target="_blank"> 『 SIAOR 』</a>
+</center>
+
+---
+
+<div align="center" style="color: rgb(230,192,65);">
+展示部分以后端项目为准：https://github.com/siaor/poetize-next
 </div>
 
 ## 请作者喝咖啡
