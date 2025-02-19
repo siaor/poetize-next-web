@@ -19,13 +19,13 @@ export default {
   tocbot: "https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.min.js",
   jinrishici: "https://v1.jinrishici.com/all.json",
   //前后端定义的密钥，AES使用16位
-  cryptojs_key: "sarasarasarasara",
+  cryptojs_key: "poetize-next2025",
 
   friendWebName: "POETIZE-NEXT",
+  friendIntroduction: "遇见最美博客，下一站，出发！诗与远方~",
   friendUrl: location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : ''),
-  friendAvatar: "https://s1.ax1x.com/2022/11/10/z9E7X4.jpg",
-  friendIntroduction: "这是一个 Vue2 Vue3 与 SpringBoot 结合的产物～",
-  friendCover: "https://s1.ax1x.com/2022/11/10/z9VlHs.png",
+  friendAvatar: location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : '') + "/res/sys/poetize-next.png",
+  friendCover: location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : '') + "/res/sys/poetize-next-home.png",
 
   before_color_list: ["black", "rgb(131, 123, 199)", "#ee7752", "#e73c7e", "#23a6d5", "#23d5ab"],
 
@@ -49,5 +49,5 @@ export default {
   userId: 1,
   source: 0,
 
-  emojiList: ['衰', '鄙视', '再见', '捂嘴', '摸鱼', '奋斗', '白眼', '可怜', '皱眉', '鼓掌', '烦恼', '吐舌', '挖鼻', '委屈', '滑稽', '啊这', '生气', '害羞', '晕', '好色', '流泪', '吐血', '微笑', '酷', '坏笑', '吓', '大兵', '哭笑', '困', '呲牙']
+  emojiList: ['嘻嘻', '笑哭了', '哈哈', '大笑', '苦笑', '笑翻', '天使笑', '恶魔笑', '眨眼', '冷漠', '无语', '不高兴', '流汗', '沉思', '困扰', '困惑', '亲亲', '飞吻', '笑着亲', '生气', '愤怒', '想哭', '痛苦', '傲慢', '失望', '啊', '啊？', '害怕', '累死了', '冷汗']
 }

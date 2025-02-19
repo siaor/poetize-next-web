@@ -23,7 +23,7 @@
           <button v-show="show"
                   style="margin-left: 12px;cursor: pointer;width: 20%"
                   @click="submitMessage"
-                  class="message-input">发射
+                  class="message-input">发送
           </button>
         </div>
       </div>
