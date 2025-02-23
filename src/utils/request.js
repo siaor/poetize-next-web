@@ -28,7 +28,7 @@ axios.interceptors.response.use(function (response) {
       localStorage.removeItem("adminToken");
       window.location.href = constant.webURL + "/user";
     }
-    return Promise.reject(new Error(response.data.message));
+    return Promise.reject(response.data);
   } else {
     return response;
   }

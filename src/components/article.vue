@@ -536,7 +536,7 @@
             }
           })
           .catch((error) => {
-            if ("密码错误" === error.message.substr(0, 4)) {
+            if (error.message.includes("密码")) {
               if (!this.$common.isEmpty(password)) {
                 localStorage.removeItem("article_password_" + this.id);
                 this.$message({
@@ -545,7 +545,7 @@
                   customClass: "message-index"
                 });
               }
-              this.tips = error.message.substr(4);
+              this.tips = error.message;
               this.showPasswordDialog = true;
             } else {
               this.$message({
@@ -554,7 +554,7 @@
                 customClass: "message-index"
               });
               this.tips = error.message;
-              this.showPasswordDialog = true;
+              this.showPasswordDialog = false;
             }
           });
       },

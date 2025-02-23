@@ -53,7 +53,7 @@
         <el-switch v-model="article.viewStatus"></el-switch>
       </el-form-item>
 
-      <el-form-item v-if="article.viewStatus === false" label="不可见时的访问密码" prop="password">
+      <el-form-item v-if="article.viewStatus === false" label="访问密码" prop="password">
         <el-input maxlength="30" v-model="article.password"></el-input>
       </el-form-item>
 
