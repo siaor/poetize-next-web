@@ -15,7 +15,7 @@
         </el-input>
       </div>
       <div>
-        <proButton :info="'提交'" @click.native="login()" :before="$constant.before_color_2"
+        <proButton :info="'登录'" @click.native="login()" :before="$constant.before_color_2"
           :after="$constant.after_color_2">
         </proButton>
       </div>
@@ -43,7 +43,7 @@ export default {
     if (!this.$common.isEmpty(sysConfig) && !this.$common.isEmpty(sysConfig['webStaticResourcePrefix'])) {
       let root = document.querySelector(":root");
       let webStaticResourcePrefix = sysConfig['webStaticResourcePrefix'];
-      root.style.setProperty("--backgroundPicture", "url(" + webStaticResourcePrefix + "sys/backgroundPicture.jpg)");
+      root.style.setProperty("--backgroundPicture", "url(" + webStaticResourcePrefix + "sys/backend-bg.jpg)");
       const font = new FontFace("poetize-font", "url(" + webStaticResourcePrefix + "sys/font.woff2)");
       font.load();
       document.fonts.add(font);
@@ -96,6 +96,7 @@ export default {
   background: var(--maxWhiteMask);
   padding: 30px 40px 5px;
   position: relative;
+  border-radius: 14px;
 }
 
 .verify-content>div:first-child {

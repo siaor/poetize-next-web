@@ -9,7 +9,7 @@
         class="toolbar-content myBetween">
         <!-- 网站名称 -->
         <div class="toolbar-title">
-          <h2 @click="$router.push({ path: '/' })">{{ $store.state.webInfo.webName }}</h2>
+          <img  @click="$router.push({ path: '/' })" :src="$store.state.sysConfig['webStaticResourcePrefix'] + 'sys/home-logo.png'" style="height: 58px;"/>
         </div>
 
         <!-- 手机导航按钮 -->
@@ -427,7 +427,7 @@ export default {
       root.style.setProperty("--bannerWave2", "url(" + webStaticResourcePrefix + "sys/bannerWave2.png) repeat-x");
       root.style.setProperty("--backgroundPicture", "url(" + webStaticResourcePrefix + "sys/backgroundPicture.jpg)");
       root.style.setProperty("--toolbar", "url(" + webStaticResourcePrefix + "sys/toolbar.jpg)");
-      root.style.setProperty("--love", "url(" + webStaticResourcePrefix + "sys/love.jpg)");
+      root.style.setProperty("--love", "url(" + webStaticResourcePrefix + "sys/love/love.jpg)");
       const font = new FontFace("poetize-font", "url(" + webStaticResourcePrefix + "sys/font.woff2)");
       font.load();
       document.fonts.add(font);

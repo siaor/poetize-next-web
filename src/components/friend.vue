@@ -5,11 +5,11 @@
         <!-- 添加友链 -->
         <div @click="clickLetter()" class="form-wrap">
           <!-- 信封上面 -->
-          <img class="before-img" :src="$store.state.sysConfig['webStaticResourcePrefix'] + 'sys/friendLetterTop.png'" style="width: 100%"/>
+          <img class="before-img" :src="$store.state.sysConfig['webStaticResourcePrefix'] + 'sys/friend/letterTop.png'" style="width: 100%"/>
           <!-- 信 -->
           <div class="envelope" style="animation: hideToShow 2s">
             <div class="form-main">
-              <img :src="$store.state.sysConfig['webStaticResourcePrefix'] + 'sys/friendLetterMiddle.jpg'" style="width: 100%"/>
+              <img :src="$store.state.sysConfig['webStaticResourcePrefix'] + 'sys/friend/letterMiddle.jpg'" style="width: 100%"/>
               <div>
                 <h3 style="text-align: center">有朋自远方来</h3>
                 <div>
@@ -44,13 +44,13 @@
                   </div>
                 </div>
                 <div>
-                  <img :src="$store.state.sysConfig['webStaticResourcePrefix'] + 'sys/friendLetterBiLi.png'" style="width: 100%;margin: 5px auto"/>
+                  <img :src="$store.state.sysConfig['webStaticResourcePrefix'] + 'sys/friend/letterBiLi.png'" style="width: 100%;margin: 5px auto"/>
                 </div>
                 <p style="font-size: 12px;text-align: center;color: #999">欢迎交换友链</p>
               </div>
             </div>
           </div>
-          <img class="after-img" :src="$store.state.sysConfig['webStaticResourcePrefix'] + 'sys/friendLetterBottom.png'" style="width: 100%"/>
+          <img class="after-img" :src="$store.state.sysConfig['webStaticResourcePrefix'] + 'sys/friend/letterBottom.png'" style="width: 100%"/>
         </div>
 
         <div style="font-size: 20px;font-weight: bold;margin-top: 40px">🌸本站信息</div>
