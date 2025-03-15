@@ -40,7 +40,7 @@
         for (let i = 0; i < emojiList.length; i++) {
           emojiName = "[" + emojiList[i] + "]";
           let j = i + 1;
-          url = this.$store.state.sysConfig['webStaticResourcePrefix'] + "emoji/q" + j + ".gif";
+          url = "/sys/emoji/q" + j + ".gif";
           result[emojiName] = url;
         }
         return result;

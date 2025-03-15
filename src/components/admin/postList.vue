@@ -258,7 +258,7 @@ export default {
         this.$http.post(this.$constant.baseURL + "/article/reload", {}, true)
           .then((res) => {
             this.$message({
-              message: res.message,
+              message: res.data,
               type: "success"
             });
 

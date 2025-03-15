@@ -19,7 +19,7 @@
           </div>
         </div>
         <div>
-          <img class="love-img" :src="$store.state.sysConfig['webStaticResourcePrefix'] + 'sys/love/loveLike.svg'" alt="心心">
+          <img class="love-img" src="/sys/love/loveLike.svg" alt="心心">
         </div>
         <div>
           <el-avatar class="love-avatar" :src="love.womanCover"></el-avatar>
@@ -112,8 +112,7 @@
         <div class="card-wrap" v-show="card !== 4">
           <div class="card-content shadow-box-mini" @click="changeCard(1)">
             <div>
-              <el-avatar :size="100"
-                         :src="$store.state.sysConfig['webStaticResourcePrefix'] + 'sys/love/loveWeiYan.jpg'">
+              <el-avatar :size="100" src="/sys/love/loveWeiYan.jpg">
               </el-avatar>
             </div>
             <div class="card-right">
@@ -128,8 +127,7 @@
 
           <div class="card-content shadow-box-mini" @click="changeCard(2)">
             <div>
-              <el-avatar :size="100"
-                         :src="$store.state.sysConfig['webStaticResourcePrefix'] + 'sys/love/lovePhoto.jpg'">
+              <el-avatar :size="100" src="/sys/love/lovePhoto.jpg">
               </el-avatar>
             </div>
             <div class="card-right">
@@ -144,8 +142,7 @@
 
           <div class="card-content shadow-box-mini" @click="changeCard(3)">
             <div>
-              <el-avatar :size="100"
-                         :src="$store.state.sysConfig['webStaticResourcePrefix'] + 'sys/love/loveMessage.jpg'">
+              <el-avatar :size="100" src="/sys/love/loveMessage.jpg">
               </el-avatar>
             </div>
             <div class="card-right">
@@ -212,7 +209,7 @@
                   </div>
                 </div>
                 <div>
-                  <img class="family-img" :src="$store.state.sysConfig['webStaticResourcePrefix'] + 'sys/love/loveLike.svg'" alt="心心">
+                  <img class="family-img" src="/sys/love/loveLike.svg" alt="心心">
                 </div>
                 <div>
                   <el-avatar class="family-avatar" :src="item.womanCover"></el-avatar>
@@ -265,7 +262,7 @@
                  center>
         <div>
           <div class="form-main">
-            <img :src="$store.state.sysConfig['webStaticResourcePrefix'] + 'sys/friend/letterMiddle.jpg'" style="width: 100%"/>
+            <img src="/sys/friend/letterMiddle.jpg" style="width: 100%"/>
             <div>
               <div>
                 <div class="myCenter form-friend">
@@ -389,7 +386,7 @@
                 </div>
               </div>
               <div>
-                <img :src="$store.state.sysConfig['webStaticResourcePrefix'] + 'sys/friend/letterBiLi.png'" style="width: 100%;margin: 5px auto"/>
+                <img src="/sys/friend/letterBiLi.png" style="width: 100%;margin: 5px auto"/>
               </div>
               <p style="font-size: 12px;text-align: center;color: #999">欢迎入住表白墙</p>
             </div>

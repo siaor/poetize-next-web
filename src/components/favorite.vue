@@ -4,8 +4,7 @@
       <!-- 封面 -->
       <div class="favorite-header my-animation-slide-top">
         <!-- 背景图片 -->
-        <video class="index-video" autoplay="autoplay" muted="muted" loop="loop"
-               :src="$store.state.sysConfig['webStaticResourcePrefix'] + 'sys/favorite.mp4'">
+        <video class="index-video" autoplay="autoplay" muted="muted" loop="loop" src="/sys/favorite.mp4">
         </video>
         <div style="position: absolute;left: 0;top: 0;padding: 5px 20px">
           <!-- 标题 -->

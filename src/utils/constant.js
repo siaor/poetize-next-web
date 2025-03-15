@@ -24,8 +24,8 @@ export default {
   friendWebName: "POETIZE-NEXT",
   friendIntroduction: "遇见最美博客，下一站，出发！诗与远方~",
   friendUrl: location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : ''),
-  friendAvatar: location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : '') + "/res/sys/poetize-next.png",
-  friendCover: location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : '') + "/res/sys/poetize-next-home.png",
+  friendAvatar: location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : '') + "/sys/poetize-next.png",
+  friendCover: location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : '') + "/sys/poetize-next-home.png",
 
   before_color_list: ["black", "rgb(131, 123, 199)", "#ee7752", "#e73c7e", "#23a6d5", "#23d5ab"],
 

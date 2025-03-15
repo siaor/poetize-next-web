@@ -39,15 +39,11 @@ export default {
   },
   computed: {},
   created() {
-    let sysConfig = this.$store.state.sysConfig;
-    if (!this.$common.isEmpty(sysConfig) && !this.$common.isEmpty(sysConfig['webStaticResourcePrefix'])) {
-      let root = document.querySelector(":root");
-      let webStaticResourcePrefix = sysConfig['webStaticResourcePrefix'];
-      root.style.setProperty("--backgroundPicture", "url(" + webStaticResourcePrefix + "sys/backend-bg.jpg)");
-      const font = new FontFace("poetize-font", "url(" + webStaticResourcePrefix + "sys/font.woff2)");
-      font.load();
-      document.fonts.add(font);
-    }
+    let root = document.querySelector(":root");
+    root.style.setProperty("--backgroundPicture", "url(/sys/backend-bg.jpg)");
+    const font = new FontFace("poetize-font", "url(/sys/font.woff2)");
+    font.load();
+    document.fonts.add(font);
   },
   methods: {
     login() {

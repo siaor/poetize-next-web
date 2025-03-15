@@ -77,7 +77,7 @@ export default {
     content = content.replace(/\[[^\[^\]]+\]/g, (word) => {
       let index = constant.emojiList.indexOf(word.replace("[", "").replace("]", ""));
       if (index > -1) {
-        let url = store.state.sysConfig['webStaticResourcePrefix'] + "emoji/q" + (index + 1) + ".gif";
+        let url = "/sys/emoji/q" + (index + 1) + ".gif";
         return '<img loading="lazy" style="vertical-align: middle;width: 32px;height: 32px" src="' + url + '" title="' + word + '"/>';
       } else {
         return word;

@@ -9,7 +9,7 @@
         class="toolbar-content myBetween">
         <!-- 网站名称 -->
         <div class="toolbar-title">
-          <img  @click="$router.push({ path: '/' })" :src="$store.state.sysConfig['webStaticResourcePrefix'] + 'sys/home-logo.png'" style="height: 58px;"/>
+          <img  @click="$router.push({ path: '/' })" src="/sys/home-logo.png" style="height: 58px;"/>
         </div>
 
         <!-- 手机导航按钮 -->
@@ -418,17 +418,16 @@ export default {
     },
     buildCssPicture() {
       let root = document.querySelector(":root");
-      let webStaticResourcePrefix = this.$store.state.sysConfig['webStaticResourcePrefix'];
-      root.style.setProperty("--commentURL", "url(" + webStaticResourcePrefix + "sys/commentURL.png)");
-      root.style.setProperty("--springBg", "url(" + webStaticResourcePrefix + "sys/springBg.png)");
-      root.style.setProperty("--admireImage", "url(" + webStaticResourcePrefix + "sys/admireImage.jpg)");
-      root.style.setProperty("--toTop", "url(" + webStaticResourcePrefix + "sys/toTop.png)");
-      root.style.setProperty("--bannerWave1", "url(" + webStaticResourcePrefix + "sys/bannerWave1.png) repeat-x");
-      root.style.setProperty("--bannerWave2", "url(" + webStaticResourcePrefix + "sys/bannerWave2.png) repeat-x");
-      root.style.setProperty("--backgroundPicture", "url(" + webStaticResourcePrefix + "sys/backgroundPicture.jpg)");
-      root.style.setProperty("--toolbar", "url(" + webStaticResourcePrefix + "sys/toolbar.jpg)");
-      root.style.setProperty("--love", "url(" + webStaticResourcePrefix + "sys/love/love.jpg)");
-      const font = new FontFace("poetize-font", "url(" + webStaticResourcePrefix + "sys/font.woff2)");
+      root.style.setProperty("--commentURL", "url(/sys/commentURL.png)");
+      root.style.setProperty("--springBg", "url(/sys/springBg.png)");
+      root.style.setProperty("--admireImage", "url(/sys/admireImage.jpg)");
+      root.style.setProperty("--toTop", "url(/sys/toTop.png)");
+      root.style.setProperty("--bannerWave1", "url(/sys/bannerWave1.png) repeat-x");
+      root.style.setProperty("--bannerWave2", "url(/sys/bannerWave2.png) repeat-x");
+      root.style.setProperty("--backgroundPicture", "url(/sys/backgroundPicture.jpg)");
+      root.style.setProperty("--toolbar", "url(/sys/toolbar.jpg)");
+      root.style.setProperty("--love", "url(/sys/love/love.jpg)");
+      const font = new FontFace("poetize-font", "url(/sys/font.woff2)");
       font.load();
       document.fonts.add(font);
     },

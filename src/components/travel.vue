@@ -4,8 +4,7 @@
       <!-- 封面 -->
       <div class="travel-header my-animation-slide-top">
         <!-- 背景图片 -->
-        <video class="index-video" autoplay="autoplay" muted="muted" loop="loop"
-               :src="$store.state.sysConfig['webStaticResourcePrefix'] + 'sys/travel.mp4'">
+        <video class="index-video" autoplay="autoplay" muted="muted" loop="loop" src="/sys/travel.mp4">
         </video>
         <div style="position: absolute;left: 20px;top: 20px">
           <!-- 标题 -->
