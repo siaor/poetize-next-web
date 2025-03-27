@@ -18,6 +18,7 @@
     "qs": "^6.10.3",
     "vue": "^2.6.11",
     "vue-baberrage": "^3.2.4",
+    "vue-qr": "^4.0.9",
     "vue-router": "^3.2.0",
     "vue-seamless-scroll": "^1.1.23",
     "vue-video-player": "^5.0.2",

@@ -4,11 +4,7 @@
       <!-- 封面 -->
       <div class="article-head my-animation-slide-top">
         <!-- 背景图片 -->
-        <el-image class="article-image my-el-image"
-                  v-once
-                  lazy
-                  :src="article.articleCover"
-                  fit="cover">
+        <el-image class="article-image my-el-image" v-once lazy :src="article.articleCover" fit="cover">
           <div slot="error" class="image-slot">
             <div class="article-image"></div>
           </div>
@@ -49,8 +45,8 @@
             <span>&nbsp;{{ article.createTime }}</span>
             <span>·</span>
             <svg viewBox="0 0 1024 1024" width="14" height="14" style="vertical-align: -2px;">
-              <path d="M14.656 512a497.344 497.344 0 1 0 994.688 0 497.344 497.344 0 1 0-994.688 0z"
-                    fill="#FF0000"></path>
+              <path d="M14.656 512a497.344 497.344 0 1 0 994.688 0 497.344 497.344 0 1 0-994.688 0z" fill="#FF0000">
+              </path>
               <path
                 d="M374.976 872.64c-48.299-100.032-22.592-157.44 14.421-211.37 40.448-58.966 51.115-117.611 51.115-117.611s31.659 41.386 19.115 106.005c56.149-62.72 66.816-162.133 58.325-200.405 127.317 88.746 181.59 281.002 108.181 423.381C1016 652.501 723.093 323.2 672.277 285.867c16.939 37.333 20.054 100.032-14.101 130.474-58.027-219.84-201.664-265.002-201.664-265.002 16.96 113.536-61.781 237.397-137.344 330.24-2.816-45.163-5.632-76.544-29.483-119.808-5.333 82.176-68.373 149.269-85.29 231.445-22.912 111.637 17.237 193.173 170.581 279.424z"
                 fill="#FFFFFF"></path>
@@ -70,8 +66,8 @@
               <path
                 d="M619.008 632.32l101.888-35.157333-131.754667-76.117334 29.866667 111.274667zM891.904 148.992a61.44 61.44 0 0 0-84.138667 22.528l-19.968 34.133333 106.666667 61.610667 19.968-34.133333a61.781333 61.781333 0 0 0-22.528-84.138667z"
                 fill="#69BAF9"></path>
-              <path d="M775.338667 198.775467l131.669333 76.032-186.026667 322.218666-131.6864-76.032z"
-                    fill="#F7FBFF"></path>
+              <path d="M775.338667 198.775467l131.669333 76.032-186.026667 322.218666-131.6864-76.032z" fill="#F7FBFF">
+              </path>
               <path
                 d="M775.168 198.826667l-5.290667 9.216 59.221334 34.133333a34.133333 34.133333 0 0 1 12.458666 46.592l-139.946666 242.346667a34.133333 34.133333 0 0 1-46.762667 12.629333l-59.050667-34.133333-6.656 11.434666 88.746667 51.2L720.896 597.333333l186.026667-322.56z"
                 fill="#D8E3F0"></path>
@@ -99,9 +95,8 @@
           </div>
         </div>
 
-        <div class="article-info-news"
-             @click="weiYanDialogVisible = true"
-             v-if="!$common.isEmpty($store.state.currentUser) && $store.state.currentUser.id === article.userId">
+        <div class="article-info-news" @click="weiYanDialogVisible = true"
+          v-if="!$common.isEmpty($store.state.currentUser) && $store.state.currentUser.id === article.userId">
           <svg width="30" height="30" viewBox="0 0 1024 1024">
             <path d="M0 0h1024v1024H0V0z" fill="#202425" opacity=".01"></path>
             <path
@@ -117,8 +112,7 @@
       <div style="background: var(--background);">
         <div class="article-container my-animation-slide-bottom">
           <div v-if="!$common.isEmpty(article.videoUrl)" style="margin-bottom: 20px">
-            <videoPlayer :url="{src: $common.decrypt(article.videoUrl)}"
-                         :cover="article.articleCover">
+            <videoPlayer :url="{ src: $common.decrypt(article.videoUrl) }" :cover="article.articleCover">
             </videoPlayer>
           </div>
 
@@ -141,25 +135,42 @@
           </div>
           <!-- 分类 -->
           <div class="article-sort">
-            <span @click="$router.push({path: '/sort', query: {sortId: article.sortId, labelId: article.labelId}})">{{ article.sort.sortName +" ▶ "+ article.label.labelName}}</span>
+            <span
+              @click="$router.push({ path: '/sort', query: { sortId: article.sortId, labelId: article.labelId } })">{{
+                article.sort.sortName + " ▶ " + article.label.labelName }}</span>
           </div>
           <!-- 作者信息 -->
           <blockquote>
             <div>
-              作者：{{article.username}}
+              作者：{{ article.username }}
             </div>
             <div>
               <span>版权&许可请详阅</span>
-              <span style="color: #38f;cursor: pointer"
-                    @click="copyrightDialogVisible = true">
+              <span style="color: #38f;cursor: pointer" @click="copyrightDialogVisible = true">
                 版权声明
               </span>
             </div>
           </blockquote>
-          <!-- 订阅 -->
-          <div class="myCenter" id="article-like" @click="subscribeLabel()">
-            <i class="el-icon-thumb article-like-icon" :class="{'article-like': subscribe}"></i>
-          </div>
+
+          <!-- 底部功能区 -->
+          <el-row>
+            <el-col :xs="12" :sm="12">
+              <el-result :title="subscribe ? '取消订阅' : '订阅'" subTitle="有更新我告诉你">
+                <template slot="icon">
+                  <i class="el-icon-bell article-like-icon" :class="{ 'article-like': subscribe }"
+                    @click="subscribeLabel()" title="有新的文章将会第一时间通过邮件推送到你的邮箱"></i>
+                </template>
+              </el-result>
+            </el-col>
+            <el-col :xs="12" :sm="12">
+              <el-result title="打赏" subTitle="请作者喝杯咖啡">
+                <template slot="icon">
+                  <i class="el-icon-hot-water article-like-icon" :class="{ 'article-like': subscribe }"
+                    @click="rewardLabel()" title="登录后打赏会进入排行榜"></i>
+                </template>
+              </el-result>
+            </el-col>
+          </el-row>
 
           <!-- 评论 -->
           <div v-if="article.commentStatus === true">
@@ -179,31 +190,33 @@
       <i class="fa fa-align-justify" aria-hidden="true"></i>
     </div>
 
-    <el-dialog title="版权声明"
-               :visible.sync="copyrightDialogVisible"
-               width="80%"
-               :append-to-body="true"
-               class="article-copy"
-               center>
+    <el-dialog title="版权声明" :visible.sync="copyrightDialogVisible" width="80%" :append-to-body="true"
+      class="article-copy" center>
       <div style="display: flex;align-items: center;flex-direction: column">
         <el-avatar shape="square" :size="35" :src="$store.state.webInfo.avatar"></el-avatar>
         <div class="copyright-container">
           <p>
-            {{ $store.state.webInfo.webName }}是指运行在{{ $constant.host }}域名及相关子域名上的网站，本条款描述了{{ $store.state.webInfo.webName }}的网站版权声明：
+            {{ $store.state.webInfo.webName }}是指运行在{{ $constant.host }}域名及相关子域名上的网站，本条款描述了{{
+              $store.state.webInfo.webName }}的网站版权声明：
           </p>
           <ul>
             <li>
-              {{ $store.state.webInfo.webName }}提供的所有文章、展示的图片素材等内容部分来源于互联网平台，仅供学习参考。如有侵犯您的版权，请联系{{ $store.state.webInfo.webName }}负责人，{{ $store.state.webInfo.webName }}承诺将在一个工作日内改正。
+              {{ $store.state.webInfo.webName }}提供的所有文章、展示的图片素材等内容部分来源于互联网平台，仅供学习参考。如有侵犯您的版权，请联系{{
+                $store.state.webInfo.webName }}负责人，{{ $store.state.webInfo.webName }}承诺将在一个工作日内改正。
             </li>
             <li>
-              {{ $store.state.webInfo.webName }}不保证网站内容的全部准确性、安全性和完整性，请您在阅读、下载及使用过程中自行确认，{{ $store.state.webInfo.webName }}亦不承担上述资源对您造成的任何形式的损失或伤害。
+              {{ $store.state.webInfo.webName }}不保证网站内容的全部准确性、安全性和完整性，请您在阅读、下载及使用过程中自行确认，{{ $store.state.webInfo.webName
+              }}亦不承担上述资源对您造成的任何形式的损失或伤害。
             </li>
             <li>未经{{ $store.state.webInfo.webName }}允许，不得盗链、盗用本站内容和资源。</li>
             <li>
-              {{ $store.state.webInfo.webName }}旨在为广大用户提供更多的信息；{{ $store.state.webInfo.webName }}不保证向用户提供的外部链接的准确性和完整性，该外部链接指向的不由本站实际控制的任何网页上的内容，{{ $store.state.webInfo.webName }}对其合法性亦概不负责，亦不承担任何法律责任。
+              {{ $store.state.webInfo.webName }}旨在为广大用户提供更多的信息；{{ $store.state.webInfo.webName
+              }}不保证向用户提供的外部链接的准确性和完整性，该外部链接指向的不由本站实际控制的任何网页上的内容，{{ $store.state.webInfo.webName }}对其合法性亦概不负责，亦不承担任何法律责任。
             </li>
             <li>
-              {{ $store.state.webInfo.webName }}中的文章/视频（包括转载文章/视频）的版权仅归原作者所有，若作者有版权声明或文章从其它网站转载而附带有原所有站的版权声明者，其版权归属以附带声明为准；文章仅代表作者本人的观点，与{{ $store.state.webInfo.webName }}立场无关。
+              {{ $store.state.webInfo.webName
+              }}中的文章/视频（包括转载文章/视频）的版权仅归原作者所有，若作者有版权声明或文章从其它网站转载而附带有原所有站的版权声明者，其版权归属以附带声明为准；文章仅代表作者本人的观点，与{{
+                $store.state.webInfo.webName }}立场无关。
             </li>
             <li>
               {{ $store.state.webInfo.webName }}自行编写排版的文章均采用
@@ -214,9 +227,8 @@
             <li>
               许可协议标识：
               <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
-                <img alt="知识共享许可协议"
-                     src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"
-                     style="margin-top: 5px">
+                <img alt="知识共享许可协议" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"
+                  style="margin-top: 5px">
               </a>
             </li>
           </ul>
@@ -224,227 +236,310 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="最新进展"
-               :visible.sync="weiYanDialogVisible"
-               width="40%"
-               :append-to-body="true"
-               :close-on-click-modal="false"
-               destroy-on-close
-               center>
-      <div>
+    <el-dialog title="最新进展" :visible.sync="weiYanDialogVisible" width="40%" :append-to-body="true"
+      :close-on-click-modal="false" destroy-on-close center>
+      <div style="border-radius: 14px;">
         <div class="myCenter" style="margin-bottom: 20px">
-          <el-date-picker
-            v-model="newsTime"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            type="datetime"
-            align="center"
+          <el-date-picker v-model="newsTime" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" align="center"
             placeholder="选择日期时间">
           </el-date-picker>
         </div>
-        <commentBox :disableGraffiti="true"
-                    @submitComment="submitWeiYan">
+        <commentBox :disableGraffiti="true" @submitComment="submitWeiYan">
         </commentBox>
       </div>
     </el-dialog>
 
     <!-- 微信 -->
-    <el-dialog title="密码"
-               :modal="false"
-               :visible.sync="showPasswordDialog"
-               width="25%"
-               :append-to-body="true"
-               :close-on-click-modal="false"
-               destroy-on-close
-               center>
+    <el-dialog title="密码" :modal="false" :visible.sync="showPasswordDialog" width="25%" :append-to-body="true"
+      :close-on-click-modal="false" destroy-on-close center>
       <div>
         <div>
-          <div class="password-content">{{tips}}</div>
+          <div class="password-content">{{ tips }}</div>
         </div>
         <div style="margin: 20px auto">
           <el-input maxlength="30" v-model="password"></el-input>
         </div>
         <div style="display: flex;justify-content: center">
-          <proButton :info="'提交'"
-                     @click.native="submitPassword()"
-                     :before="$constant.before_color_2"
-                     :after="$constant.after_color_2">
+          <proButton :info="'提交'" @click.native="submitPassword()" :before="$constant.before_color_2"
+            :after="$constant.after_color_2">
           </proButton>
         </div>
       </div>
     </el-dialog>
+
+    <el-dialog title="我很欣赏你！打赏！必须打赏！" :visible.sync="showRewardDialog" :before-close="rewardCancel" width="40%"
+      :append-to-body="true" :close-on-click-modal="false" destroy-on-close center>
+      <div>
+        <el-row>
+          <el-col>
+            <el-result :title="rewardInfo" :subTitle="'请使用支付宝扫一扫（' + payCycle + 's）'">
+              <template slot="icon">
+                <VueQr :text="payUrl" :size="280" logoSrc="/sys/alipay.svg"></VueQr>
+              </template>
+            </el-result>
+          </el-col>
+        </el-row>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
-  const myFooter = () => import( "./common/myFooter");
-  const comment = () => import( "./comment/comment");
-  const process = () => import( "./common/process");
-  const commentBox = () => import( "./comment/commentBox");
-  const proButton = () => import( "./common/proButton");
-  const videoPlayer = () => import( "./common/videoPlayer");
-  import MarkdownIt from 'markdown-it';
+const myFooter = () => import("./common/myFooter");
+const comment = () => import("./comment/comment");
+const process = () => import("./common/process");
+const commentBox = () => import("./comment/commentBox");
+const proButton = () => import("./common/proButton");
+const videoPlayer = () => import("./common/videoPlayer");
+import MarkdownIt from 'markdown-it';
+import VueQr from 'vue-qr';
 
-  export default {
-    components: {
-      myFooter,
-      comment,
-      commentBox,
-      proButton,
-      process,
-      videoPlayer
-    },
+export default {
+  components: {
+    VueQr,
+    myFooter,
+    comment,
+    commentBox,
+    proButton,
+    process,
+    videoPlayer
+  },
 
-    data() {
-      return {
-        id: this.$route.params.id,
-        subscribe: false,
-        article: {},
-        articleContentHtml: "",
-        treeHoleList: [],
-        weiYanDialogVisible: false,
-        copyrightDialogVisible: false,
-        newsTime: "",
-        showPasswordDialog: false,
-        password: "",
-        tips: "",
-        scrollTop: 0
-      };
-    },
-    created() {
-      if (!this.$common.isEmpty(this.id)) {
-        this.getArticle(localStorage.getItem("article_password_" + this.id));
+  data() {
+    return {
+      id: this.$route.params.id,
+      subscribe: false,
+      article: {},
+      articleContentHtml: "",
+      treeHoleList: [],
+      weiYanDialogVisible: false,
+      copyrightDialogVisible: false,
+      newsTime: "",
+      showPasswordDialog: false,
+      showRewardDialog: false,
+      rewardInfo: "",
+      payCycle: 0,
+      payUrl: "",
+      payOrderId: 0,
+      password: "",
+      tips: "",
+      scrollTop: 0
+    };
+  },
+  created() {
+    if (!this.$common.isEmpty(this.id)) {
+      this.getArticle(localStorage.getItem("article_password_" + this.id));
 
-        if ("0" !== localStorage.getItem("showSubscribe")) {
-          this.$notify({
-            title: '文章订阅',
-            type: 'success',
-            message: '点击文章下方小手 - 订阅/取消订阅专栏（标签）',
-            duration: 0,
-            onClose: () => localStorage.setItem("showSubscribe", "0")
-          });
-        }
+      if ("0" !== localStorage.getItem("showSubscribe")) {
+        this.$notify({
+          title: '文章订阅',
+          type: 'success',
+          message: '点击文章下方小手 - 订阅/取消订阅专栏（标签）',
+          duration: 0,
+          onClose: () => localStorage.setItem("showSubscribe", "0")
+        });
+      }
+    }
+  },
+  mounted() {
+    window.addEventListener("scroll", this.onScrollPage);
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.onScrollPage);
+  },
+  watch: {
+    scrollTop(scrollTop, oldScrollTop) {
+      let isShow = scrollTop - window.innerHeight > 30;
+      if (isShow) {
+        $("#toc-button").css("bottom", "14.1vh");
+      } else {
+        $("#toc-button").css("bottom", "8vh");
       }
     },
-    mounted() {
-      window.addEventListener("scroll", this.onScrollPage);
+  },
+  methods: {
+    clickTocButton() {
+      let display = $(".toc");
+      if ("none" === display.css("display")) {
+        display.css("display", "unset");
+      } else {
+        display.css("display", "none");
+      }
     },
-    destroyed() {
-      window.removeEventListener("scroll", this.onScrollPage);
-    },
-    watch: {
-      scrollTop(scrollTop, oldScrollTop) {
-        let isShow = scrollTop - window.innerHeight > 30;
-        if (isShow) {
-          $("#toc-button").css("bottom", "14.1vh");
-        } else {
-          $("#toc-button").css("bottom", "8vh");
-        }
-      },
-    },
-    methods: {
-      clickTocButton() {
-        let display = $(".toc");
-        if ("none" === display.css("display")) {
-          display.css("display", "unset");
-        } else {
-          display.css("display", "none");
-        }
-      },
-      subscribeLabel() {
-        if (this.$common.isEmpty(this.$store.state.currentUser)) {
-          this.$message({
-            message: "请先登录！",
-            type: "error"
-          });
-          return;
-        }
-
-        this.$confirm('确认' + (this.subscribe ? '取消订阅' : '订阅') + '专栏【' + this.article.label.labelName + '】？' + (this.subscribe ? "" : "订阅专栏后，该专栏发布新文章将通过邮件通知订阅用户。"), this.subscribe ? "取消订阅" : "文章订阅", {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          center: true
-        }).then(() => {
-          this.$http.get(this.$constant.baseURL + "/user/subscribe", {
-            labelId: this.article.labelId,
-            flag: !this.subscribe
-          })
-            .then((res) => {
-              if (!this.$common.isEmpty(res.data)) {
-                this.$store.commit("loadCurrentUser", res.data);
-              }
-              this.subscribe = !this.subscribe;
-            })
-            .catch((error) => {
-              this.$message({
-                message: error.message,
-                type: "error"
-              });
-            });
-        }).catch(() => {
-          this.$message({
-            type: 'success',
-            message: '已取消!'
-          });
+    subscribeLabel() {
+      if (this.$common.isEmpty(this.$store.state.currentUser)) {
+        this.$message({
+          message: "请先登录！",
+          type: "error"
         });
-      },
-      submitPassword() {
-        if (this.$common.isEmpty(this.password)) {
-          this.$message({
-            message: "请先输入密码！",
-            type: "error"
-          });
-          return;
-        }
+        return;
+      }
 
-        this.getArticle(this.password);
-      },
-      deleteTreeHole(id) {
-        if (this.$common.isEmpty(this.$store.state.currentUser)) {
-          this.$message({
-            message: "请先登录！",
-            type: "error"
-          });
-          return;
-        }
-
-        this.$confirm('确认删除？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'success',
-          center: true
-        }).then(() => {
-          this.$http.get(this.$constant.baseURL + "/weiYan/deleteWeiYan", {id: id})
-            .then((res) => {
-              this.$message({
-                type: 'success',
-                message: '删除成功!'
-              });
-              this.getNews();
-            })
-            .catch((error) => {
-              this.$message({
-                message: error.message,
-                type: "error"
-              });
-            });
-        }).catch(() => {
-          this.$message({
-            type: 'success',
-            message: '已取消删除!'
-          });
-        });
-      },
-      submitWeiYan(content) {
-        let weiYan = {
-          content: content,
-          createTime: this.newsTime,
-          source: this.article.id
-        };
-
-        this.$http.post(this.$constant.baseURL + "/weiYan/saveNews", weiYan)
+      this.$confirm('确认' + (this.subscribe ? '取消订阅' : '订阅') + '专栏【' + this.article.label.labelName + '】？' + (this.subscribe ? "" : "订阅专栏后，该专栏发布新文章将通过邮件通知订阅用户。"), this.subscribe ? "取消订阅" : "文章订阅", {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        center: true
+      }).then(() => {
+        this.$http.get(this.$constant.baseURL + "/user/subscribe", {
+          labelId: this.article.labelId,
+          flag: !this.subscribe
+        })
           .then((res) => {
-            this.weiYanDialogVisible = false;
-            this.newsTime = "";
+            if (!this.$common.isEmpty(res.data)) {
+              this.$store.commit("loadCurrentUser", res.data);
+            }
+            this.subscribe = !this.subscribe;
+          })
+          .catch((error) => {
+            this.$message({
+              message: error.message,
+              type: "error"
+            });
+          });
+      }).catch(() => {
+        this.$message({
+          type: 'success',
+          message: '已取消!'
+        });
+      });
+    },
+    rewardLabel() {
+      // 打赏，生成付款信息
+      this.$http.get(this.$constant.baseURL + "/reward/order/create", {
+        articleId: this.article.id
+      })
+        .then((res) => {
+          console.log(res.data)
+          // 创建付款订单失败
+          // if (res.data.code !== 200) {
+          //   this.$message({
+          //     message: res.data.msg,
+          //     type: "error"
+          //   });
+          //   return;
+          // }
+
+          // 匿名或登录
+          if (res.data.userId !== 0) {
+            this.rewardInfo = `感谢[${this.$store.state.currentUser.username}]的支持`;
+          } else {
+            this.rewardInfo = `感谢未登录的匿名读者`;
+          }
+          this.payOrderId = res.data.id;
+          this.payUrl = res.data.payUrl;
+          this.payCycle = 300;
+          this.showRewardDialog = true;
+          // 手机端打开支付链接
+          if (this.$common.mobile()) {
+            window.open(this.payUrl, '_blank');
+          }
+          // 监听付款
+          let intervalId = setInterval(() => {
+            this.payCycle = this.payCycle - 5;
+            this.$http.get(this.$constant.baseURL + "/reward/order/get", {
+              id: this.payOrderId,
+              articleId: this.article.id
+            }, true)
+              .then((res) => {
+                console.log(res.data)
+                const payOrder = res.data;
+                // 未支付，继续监听
+                if (payOrder.status === 0) {
+                  return;
+                }
+                clearInterval(intervalId);
+                this.showRewardDialog = false;
+                // 支付成功
+                if (payOrder.status === 1) {
+                  this.$message({
+                    message: "支付完成！感谢您的打赏！祝您一生平安！",
+                    type: "success"
+                  });
+                } else if (payOrder.status === 2) {
+                  this.$message({
+                    message: "您取消了支付！善人姥爷！您这是要抛下我嘛？",
+                    type: "warning"
+                  });
+                } else if (payOrder.status === 3) {
+                  this.$message({
+                    message: "支付超时！没关系哦，再打赏一次，咱可以等！",
+                    type: "warning"
+                  });
+                } else {
+                  this.$message({
+                    message: "支付失败！肯定是发生了什么不为人知的事情！",
+                    type: "error"
+                  });
+                }
+
+              })
+              .catch((error) => {
+                this.$message({
+                  message: error.message,
+                  type: "error"
+                });
+              });
+          }, 5000);
+        })
+        .catch((error) => {
+          this.$message({
+            message: error.message,
+          })
+        });
+    },
+    rewardCancel() {
+      // 取消打赏
+      this.$http.post(this.$constant.baseURL + "/reward/order/cancel", {
+        id: this.payOrderId,
+        actId: this.article.id
+      })
+        .then((res) => {
+          this.showRewardDialog = false;
+          this.$message({
+            message: "啊!不要呀！",
+            type: "warning"
+          });
+        })
+        .catch((error) => {
+          this.$message({
+            message: error.message,
+            type: "error"
+          });
+        });
+    },
+    submitPassword() {
+      if (this.$common.isEmpty(this.password)) {
+        this.$message({
+          message: "请先输入密码！",
+          type: "error"
+        });
+        return;
+      }
+
+      this.getArticle(this.password);
+    },
+    deleteTreeHole(id) {
+      if (this.$common.isEmpty(this.$store.state.currentUser)) {
+        this.$message({
+          message: "请先登录！",
+          type: "error"
+        });
+        return;
+      }
+
+      this.$confirm('确认删除？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'success',
+        center: true
+      }).then(() => {
+        this.$http.get(this.$constant.baseURL + "/weiYan/deleteWeiYan", { id: id })
+          .then((res) => {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
             this.getNews();
           })
           .catch((error) => {
@@ -453,379 +548,404 @@
               type: "error"
             });
           });
-      },
-      getNews() {
-        this.$http.post(this.$constant.baseURL + "/weiYan/listNews", {
-          current: 1,
-          size: 9999,
-          source: this.article.id
-        })
-          .then((res) => {
-            if (!this.$common.isEmpty(res.data)) {
-              res.data.records.forEach(c => {
-                c.content = c.content.replace(/\n{2,}/g, '<div style="height: 12px"></div>');
-                c.content = c.content.replace(/\n/g, '<br/>');
-                c.content = this.$common.faceReg(c.content);
-                c.content = this.$common.pictureReg(c.content);
-              });
-              this.treeHoleList = res.data.records;
-            }
-          })
-          .catch((error) => {
-            this.$message({
-              message: error.message,
-              type: "error"
-            });
-          });
-      },
-      onScrollPage() {
-        this.scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-        if (this.scrollTop < (window.innerHeight / 4)) {
-          $(".toc").css("top", window.innerHeight / 4);
-        } else {
-          $(".toc").css("top", "90px");
-        }
-      },
-      getTocbot() {
-        let script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = this.$constant.tocbot;
-        document.getElementsByTagName('head')[0].appendChild(script);
+      }).catch(() => {
+        this.$message({
+          type: 'success',
+          message: '已取消删除!'
+        });
+      });
+    },
+    submitWeiYan(content) {
+      let weiYan = {
+        content: content,
+        createTime: this.newsTime,
+        source: this.article.id
+      };
 
-        // 引入成功
-        script.onload = function () {
-          tocbot.init({
-            tocSelector: '#toc',
-            contentSelector: '.entry-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            scrollSmooth: true,
-            fixedSidebarOffset: 'auto',
-            scrollSmoothOffset: -100,
-            hasInnerContainers: false
+      this.$http.post(this.$constant.baseURL + "/weiYan/saveNews", weiYan)
+        .then((res) => {
+          this.weiYanDialogVisible = false;
+          this.newsTime = "";
+          this.getNews();
+        })
+        .catch((error) => {
+          this.$message({
+            message: error.message,
+            type: "error"
           });
-        }
-        if (this.$common.mobile()) {
-          $(".toc").css("display", "none");
-        }
-      },
-      addId() {
-        let headings = $(".entry-content").find("h1, h2, h3, h4, h5, h6");
-        headings.attr('id', (i, id) => id || 'toc-' + i);
-      },
-      getArticle(password) {
-        this.$http.get(this.$constant.baseURL + "/article/getArticleById", {id: this.id, password: password})
-          .then((res) => {
-            if (!this.$common.isEmpty(res.data)) {
-              this.article = res.data;
-              this.getNews();
-              const md = new MarkdownIt({html:true, breaks: true}).use(require('markdown-it-multimd-table'));
-              this.articleContentHtml = md.render(this.article.articleContent);
-              this.$nextTick(() => {
-                this.$common.imgShow(".entry-content img");
-                this.highlight();
-                this.addId();
-                this.getTocbot();
-              });
-              if (!this.$common.isEmpty(password)) {
-                localStorage.setItem("article_password_" + this.id, password);
-              }
-              this.showPasswordDialog = false;
-              if (!this.$common.isEmpty(this.$store.state.currentUser) && !this.$common.isEmpty(this.$store.state.currentUser.subscribe)) {
-                this.subscribe = JSON.parse(this.$store.state.currentUser.subscribe).includes(this.article.labelId);
-              }
+        });
+    },
+    getNews() {
+      this.$http.post(this.$constant.baseURL + "/weiYan/listNews", {
+        current: 1,
+        size: 9999,
+        source: this.article.id
+      })
+        .then((res) => {
+          if (!this.$common.isEmpty(res.data)) {
+            res.data.records.forEach(c => {
+              c.content = c.content.replace(/\n{2,}/g, '<div style="height: 12px"></div>');
+              c.content = c.content.replace(/\n/g, '<br/>');
+              c.content = this.$common.faceReg(c.content);
+              c.content = this.$common.pictureReg(c.content);
+            });
+            this.treeHoleList = res.data.records;
+          }
+        })
+        .catch((error) => {
+          this.$message({
+            message: error.message,
+            type: "error"
+          });
+        });
+    },
+    onScrollPage() {
+      this.scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      if (this.scrollTop < (window.innerHeight / 4)) {
+        $(".toc").css("top", window.innerHeight / 4);
+      } else {
+        $(".toc").css("top", "90px");
+      }
+    },
+    getTocbot() {
+      let script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = this.$constant.tocbot;
+      document.getElementsByTagName('head')[0].appendChild(script);
+
+      // 引入成功
+      script.onload = function () {
+        tocbot.init({
+          tocSelector: '#toc',
+          contentSelector: '.entry-content',
+          headingSelector: 'h1, h2, h3, h4, h5',
+          scrollSmooth: true,
+          fixedSidebarOffset: 'auto',
+          scrollSmoothOffset: -100,
+          hasInnerContainers: false
+        });
+      }
+      if (this.$common.mobile()) {
+        $(".toc").css("display", "none");
+      }
+    },
+    addId() {
+      let headings = $(".entry-content").find("h1, h2, h3, h4, h5, h6");
+      headings.attr('id', (i, id) => id || 'toc-' + i);
+    },
+    getArticle(password) {
+      this.$http.get(this.$constant.baseURL + "/article/getArticleById", { id: this.id, password: password })
+        .then((res) => {
+          if (!this.$common.isEmpty(res.data)) {
+            this.article = res.data;
+            this.getNews();
+            const md = new MarkdownIt({ html: true, breaks: true }).use(require('markdown-it-multimd-table'));
+            this.articleContentHtml = md.render(this.article.articleContent);
+            this.$nextTick(() => {
+              this.$common.imgShow(".entry-content img");
+              this.highlight();
+              this.addId();
+              this.getTocbot();
+            });
+            if (!this.$common.isEmpty(password)) {
+              localStorage.setItem("article_password_" + this.id, password);
             }
-          })
-          .catch((error) => {
-            if (error.message.includes("密码")) {
-              if (!this.$common.isEmpty(password)) {
-                localStorage.removeItem("article_password_" + this.id);
-                this.$message({
-                  message: "密码错误，请重新输入！",
-                  type: "error",
-                  customClass: "message-index"
-                });
-              }
-              this.tips = error.message;
-              this.showPasswordDialog = true;
-            } else {
+            this.showPasswordDialog = false;
+            if (!this.$common.isEmpty(this.$store.state.currentUser) && !this.$common.isEmpty(this.$store.state.currentUser.subscribe)) {
+              this.subscribe = JSON.parse(this.$store.state.currentUser.subscribe).includes(this.article.labelId);
+            }
+          }
+        })
+        .catch((error) => {
+          if (error.message.includes("密码")) {
+            if (!this.$common.isEmpty(password)) {
+              localStorage.removeItem("article_password_" + this.id);
               this.$message({
-                message: error.message,
+                message: "密码错误，请重新输入！",
                 type: "error",
                 customClass: "message-index"
               });
-              this.tips = error.message;
-              this.showPasswordDialog = false;
             }
-          });
-      },
-      highlight() {
-        let attributes = {
-          autocomplete: "off",
-          autocorrect: "off",
-          autocapitalize: "off",
-          spellcheck: "false",
-          contenteditable: "false"
-        };
-
-        $("pre").each(function (i, item) {
-          let preCode = $(item).children("code");
-          let classNameStr = preCode[0].className;
-          let classNameArr = classNameStr.split(" ");
-
-          let lang = "";
-          classNameArr.some(function (className) {
-            if (className.indexOf("language-") > -1) {
-              lang = className.substring(className.indexOf("-") + 1, className.length);
-              return true;
-            }
-          });
-
-          // 检测语言是否存在，不存在则自动检测
-          let language = hljs.getLanguage(lang.toLowerCase());
-          if (language === undefined) {
-            // 启用自动检测
-            let autoLanguage = hljs.highlightAuto(preCode.text());
-            preCode.removeClass("language-" + lang);
-            lang = autoLanguage.language;
-            if (lang === undefined) {
-              lang = "java";
-            }
-            preCode.addClass("language-" + lang);
+            this.tips = error.message;
+            this.showPasswordDialog = true;
           } else {
-            lang = language.name;
+            this.$message({
+              message: error.message,
+              type: "error",
+              customClass: "message-index"
+            });
+            this.tips = error.message;
+            this.showPasswordDialog = false;
           }
+        });
+    },
+    highlight() {
+      let attributes = {
+        autocomplete: "off",
+        autocorrect: "off",
+        autocapitalize: "off",
+        spellcheck: "false",
+        contenteditable: "false"
+      };
 
-          $(item).addClass("highlight-wrap");
-          $(item).attr(attributes);
-          preCode.attr("data-rel", lang.toUpperCase()).addClass(lang.toLowerCase());
-          // 启用代码高亮
-          hljs.highlightBlock(preCode[0]);
-          // 启用代码行号
-          hljs.lineNumbersBlock(preCode[0]);
+      $("pre").each(function (i, item) {
+        let preCode = $(item).children("code");
+        let classNameStr = preCode[0].className;
+        let classNameArr = classNameStr.split(" ");
+
+        let lang = "";
+        classNameArr.some(function (className) {
+          if (className.indexOf("language-") > -1) {
+            lang = className.substring(className.indexOf("-") + 1, className.length);
+            return true;
+          }
         });
 
-        $("pre code").each(function (i, block) {
-          $(block).attr({
-            id: "hljs-" + i,
-          });
-
-          $(block).after(
-            '<a class="copy-code" href="javascript:" data-clipboard-target="#hljs-' +
-            i +
-            '"><i class="fa fa-clipboard" aria-hidden="true"></i></a>'
-          );
-          new ClipboardJS(".copy-code");
-        });
-
-        if ($(".entry-content").children("table").length > 0) {
-          $(".entry-content")
-            .children("table")
-            .wrap("<div class='table-wrapper'></div>");
+        // 检测语言是否存在，不存在则自动检测
+        let language = hljs.getLanguage(lang.toLowerCase());
+        if (language === undefined) {
+          // 启用自动检测
+          let autoLanguage = hljs.highlightAuto(preCode.text());
+          preCode.removeClass("language-" + lang);
+          lang = autoLanguage.language;
+          if (lang === undefined) {
+            lang = "java";
+          }
+          preCode.addClass("language-" + lang);
+        } else {
+          lang = language.name;
         }
+
+        $(item).addClass("highlight-wrap");
+        $(item).attr(attributes);
+        preCode.attr("data-rel", lang.toUpperCase()).addClass(lang.toLowerCase());
+        // 启用代码高亮
+        hljs.highlightBlock(preCode[0]);
+        // 启用代码行号
+        hljs.lineNumbersBlock(preCode[0]);
+      });
+
+      $("pre code").each(function (i, block) {
+        $(block).attr({
+          id: "hljs-" + i,
+        });
+
+        $(block).after(
+          '<a class="copy-code" href="javascript:" data-clipboard-target="#hljs-' +
+          i +
+          '"><i class="fa fa-clipboard" aria-hidden="true"></i></a>'
+        );
+        new ClipboardJS(".copy-code");
+      });
+
+      if ($(".entry-content").children("table").length > 0) {
+        $(".entry-content")
+          .children("table")
+          .wrap("<div class='table-wrapper'></div>");
       }
     }
   }
+}
 </script>
 
 <style scoped>
+.article-head {
+  height: 40vh;
+  position: relative;
+}
 
-  .article-head {
-    height: 40vh;
-    position: relative;
-  }
+.article-image::before {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--miniMask);
+  content: "";
+}
 
-  .article-image::before {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: var(--miniMask);
-    content: "";
-  }
+.article-info-container {
+  position: absolute;
+  bottom: 15px;
+  left: 20%;
+  color: var(--white);
+}
 
+.article-info-news {
+  position: absolute;
+  bottom: 10px;
+  right: 20%;
+  cursor: pointer;
+  animation: scale 1s ease-in-out infinite;
+}
+
+.article-title {
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+.article-info {
+  font-size: 14px;
+  user-select: none;
+}
+
+.article-info i {
+  margin-right: 6px;
+}
+
+.article-info span:not(:last-child) {
+  margin-right: 5px;
+}
+
+.article-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.article-update-time {
+  color: var(--greyFont);
+  font-size: 12px;
+  margin: 20px 0;
+  user-select: none;
+}
+
+blockquote {
+  line-height: 2;
+  border-left: 0.2rem solid var(--blue);
+  padding: 10px 1rem;
+  background-color: var(--azure);
+  border-radius: 4px;
+  margin: 0 0 40px 0;
+  user-select: none;
+  color: var(--black);
+}
+
+.article-sort {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.article-sort span {
+  padding: 3px 10px;
+  background-color: var(--themeBackground);
+  border-radius: 5px;
+  font-size: 14px;
+  color: var(--white);
+  transition: all 0.3s;
+  margin-right: 25px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.article-sort span:hover {
+  background-color: var(--red);
+}
+
+.article-like {
+  color: var(--red) !important;
+}
+
+.article-like-icon {
+  font-size: 60px;
+  cursor: pointer;
+  color: var(--greyFont);
+  transition: all 0.5s;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.article-like-icon:hover {
+  transform: rotate(360deg);
+}
+
+.process-wrap {
+  margin: 0 0 40px;
+}
+
+.process-wrap hr {
+  position: relative;
+  margin: 10px auto 60px;
+  border: 2px dashed var(--lightGreen);
+  overflow: visible;
+}
+
+.process-wrap hr:before {
+  position: absolute;
+  top: -14px;
+  left: 5%;
+  color: var(--lightGreen);
+  content: '❄';
+  font-size: 30px;
+  line-height: 1;
+  transition: all 1s ease-in-out;
+}
+
+.process-wrap hr:hover:before {
+  left: calc(95% - 20px);
+}
+
+.process-wrap>>>.el-collapse-item__header {
+  border-bottom: unset;
+  font-size: 20px;
+  background-color: var(--background);
+  color: var(--lightGreen);
+}
+
+.process-wrap>>>.el-collapse-item__wrap {
+  background-color: var(--background);
+}
+
+.process-wrap .el-collapse {
+  border-top: unset;
+  border-bottom: unset;
+}
+
+.process-wrap>>>.el-collapse-item__wrap {
+  border-bottom: unset;
+}
+
+.password-content {
+  font-size: 13px;
+  color: var(--maxGreyFont);
+  line-height: 1.5;
+}
+
+#toc-button {
+  position: fixed;
+  right: 3vh;
+  bottom: 8vh;
+  animation: slide-bottom 0.5s ease-in-out both;
+  z-index: 100;
+  cursor: pointer;
+  font-size: 23px;
+  width: 30px;
+}
+
+#toc-button:hover {
+  color: var(--themeBackground);
+}
+
+.copyright-container {
+  color: var(--black);
+  line-height: 2.5;
+  padding: 0 30px 10px;
+  font-size: 16px;
+}
+
+@media screen and (max-width: 700px) {
   .article-info-container {
-    position: absolute;
-    bottom: 15px;
-    left: 20%;
-    color: var(--white);
+    left: 20px;
+    max-width: 320px;
   }
 
   .article-info-news {
-    position: absolute;
-    bottom: 10px;
-    right: 20%;
-    cursor: pointer;
-    animation: scale 1s ease-in-out infinite;
+    right: 20px;
   }
+}
 
-  .article-title {
-    font-size: 28px;
-    margin-bottom: 15px;
-  }
-
-  .article-info {
-    font-size: 14px;
-    user-select: none;
-  }
-
-  .article-info i {
-    margin-right: 6px;
-  }
-
-  .article-info span:not(:last-child) {
-    margin-right: 5px;
-  }
-
-  .article-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 40px 20px;
-  }
-
-  .article-update-time {
-    color: var(--greyFont);
-    font-size: 12px;
-    margin: 20px 0;
-    user-select: none;
-  }
-
-  blockquote {
-    line-height: 2;
-    border-left: 0.2rem solid var(--blue);
-    padding: 10px 1rem;
-    background-color: var(--azure);
-    border-radius: 4px;
-    margin: 0 0 40px 0;
-    user-select: none;
-    color: var(--black);
-  }
-
-  .article-sort {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 20px;
-  }
-
-  .article-sort span {
-    padding: 3px 10px;
-    background-color: var(--themeBackground);
-    border-radius: 5px;
-    font-size: 14px;
-    color: var(--white);
-    transition: all 0.3s;
-    margin-right: 25px;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .article-sort span:hover {
-    background-color: var(--red);
-  }
-
-  .article-like {
-    color: var(--red) !important;
-  }
-
-  .article-like-icon {
-    font-size: 60px;
-    cursor: pointer;
-    color: var(--greyFont);
-    transition: all 0.5s;
-    border-radius: 50%;
-    margin-bottom: 20px;
-  }
-
-  .article-like-icon:hover {
-    transform: rotate(360deg);
-  }
-
-  .process-wrap {
-    margin: 0 0 40px;
-  }
-
-  .process-wrap hr {
-    position: relative;
-    margin: 10px auto 60px;
-    border: 2px dashed var(--lightGreen);
-    overflow: visible;
-  }
-
-  .process-wrap hr:before {
-    position: absolute;
-    top: -14px;
-    left: 5%;
-    color: var(--lightGreen);
-    content: '❄';
-    font-size: 30px;
-    line-height: 1;
-    transition: all 1s ease-in-out;
-  }
-
-  .process-wrap hr:hover:before {
-    left: calc(95% - 20px);
-  }
-
-  .process-wrap >>> .el-collapse-item__header {
-    border-bottom: unset;
-    font-size: 20px;
-    background-color: var(--background);
-    color: var(--lightGreen);
-  }
-
-  .process-wrap >>> .el-collapse-item__wrap {
-    background-color: var(--background);
-  }
-
-  .process-wrap .el-collapse {
-    border-top: unset;
-    border-bottom: unset;
-  }
-
-  .process-wrap >>> .el-collapse-item__wrap {
-    border-bottom: unset;
-  }
-
-  .password-content {
-    font-size: 13px;
-    color: var(--maxGreyFont);
-    line-height: 1.5;
-  }
-
+@media screen and (max-width: 400px) {
   #toc-button {
-    position: fixed;
-    right: 3vh;
-    bottom: 8vh;
-    animation: slide-bottom 0.5s ease-in-out both;
-    z-index: 100;
-    cursor: pointer;
-    font-size: 23px;
-    width: 30px;
+    right: 0.5vh;
   }
-
-  #toc-button:hover {
-    color: var(--themeBackground);
-  }
-
-  .copyright-container {
-    color: var(--black);
-    line-height: 2.5;
-    padding: 0 30px 10px;
-    font-size: 16px;
-  }
-
-  @media screen and (max-width: 700px) {
-    .article-info-container {
-      left: 20px;
-      max-width: 320px;
-    }
-
-    .article-info-news {
-      right: 20px;
-    }
-  }
-
-  @media screen and (max-width: 400px) {
-    #toc-button {
-      right: 0.5vh;
-    }
-  }
+}
 </style>
