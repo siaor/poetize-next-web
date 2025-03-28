@@ -81,7 +81,8 @@
   </div>
 </template>
 <style scoped>
-  @import url("https://fonts.googleapis.com/css?family=Creepster|Rye");
+  /* @import url("https://fonts.googleapis.com/css?family=Creepster|Rye"); */
+  @import url("https://fonts.loli.net/css?family=Creepster|Rye");
 
   html,
   body {
