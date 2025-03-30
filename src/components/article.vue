@@ -410,16 +410,6 @@ export default {
         articleId: this.article.id
       })
         .then((res) => {
-          console.log(res.data)
-          // 创建付款订单失败
-          // if (res.data.code !== 200) {
-          //   this.$message({
-          //     message: res.data.msg,
-          //     type: "error"
-          //   });
-          //   return;
-          // }
-
           // 匿名或登录
           if (res.data.userId !== 0) {
             this.rewardInfo = `感谢[${this.$store.state.currentUser.username}]的支持`;

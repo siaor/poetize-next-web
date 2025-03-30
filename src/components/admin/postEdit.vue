@@ -121,7 +121,7 @@
           viewStatus: true,
           password: "",
           tips: "",
-          articleCover: "",
+          articleCover: "/sys/poetize-next-home.png",
           videoUrl: "",
           sortId: null,
           labelId: null
