@@ -427,12 +427,16 @@ export default {
           // 监听付款
           let intervalId = setInterval(() => {
             this.payCycle = this.payCycle - 5;
+            if(this.payCycle < 0){
+              clearInterval(intervalId);
+              this.showRewardDialog = false;
+              return;
+            }
             this.$http.get(this.$constant.baseURL + "/reward/order/get", {
               id: this.payOrderId,
               articleId: this.article.id
             }, true)
               .then((res) => {
-                console.log(res.data)
                 const payOrder = res.data;
                 // 未支付，继续监听
                 if (payOrder.status === 0) {
