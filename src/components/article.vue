@@ -250,7 +250,7 @@
     </el-dialog>
 
     <!-- 微信 -->
-    <el-dialog title="密码" :modal="false" :visible.sync="showPasswordDialog" width="25%" :append-to-body="true"
+    <el-dialog title="密码" :modal="false" :visible.sync="showPasswordDialog" :before-close="goBack" width="25%" :append-to-body="true"
       :close-on-click-modal="false" destroy-on-close center>
       <div>
         <div>
@@ -502,6 +502,9 @@ export default {
           });
         });
     },
+    goBack(){
+      this.$router.go(-1);
+    },
     submitPassword() {
       if (this.$common.isEmpty(this.password)) {
         this.$message({
@@ -651,7 +654,8 @@ export default {
           }
         })
         .catch((error) => {
-          if (error.message.includes("密码")) {
+          console.log(error);
+          if (error.code === 1001 || error.code === 1002) {
             if (!this.$common.isEmpty(password)) {
               localStorage.removeItem("article_password_" + this.id);
               this.$message({
