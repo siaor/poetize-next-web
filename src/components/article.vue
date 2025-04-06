@@ -190,6 +190,7 @@
       <i class="fa fa-align-justify" aria-hidden="true"></i>
     </div>
 
+    <!-- 弹窗 -->
     <el-dialog title="版权声明" :visible.sync="copyrightDialogVisible" width="80%" :append-to-body="true"
       class="article-copy" center>
       <div style="display: flex;align-items: center;flex-direction: column">
@@ -249,20 +250,35 @@
       </div>
     </el-dialog>
 
-    <!-- 微信 -->
-    <el-dialog title="密码" :modal="false" :visible.sync="showPasswordDialog" :before-close="goBack" width="25%" :append-to-body="true"
-      :close-on-click-modal="false" destroy-on-close center>
+    <el-dialog title="请输入密码" :modal="false" :visible.sync="showPasswordDialog" :before-close="goBack" width="25%"
+      :append-to-body="true" :close-on-click-modal="false" destroy-on-close center>
       <div>
         <div>
           <div class="password-content">{{ tips }}</div>
         </div>
+
         <div style="margin: 20px auto">
           <el-input maxlength="30" v-model="password"></el-input>
         </div>
+
         <div style="display: flex;justify-content: center">
-          <proButton :info="'提交'" @click.native="submitPassword()" :before="$constant.before_color_2"
+          <proButton :info="'解锁'" @click.native="submitPassword()" :before="$constant.before_color_2"
             :after="$constant.after_color_2">
           </proButton>
+        </div>
+        <el-divider content-position="right">
+          <el-link type="danger" :underline="false" @click="doPay">{{ money }} 元 购买</el-link>
+        </el-divider>
+        <div v-show="showPay" style="display: flex;justify-content: center">
+          <el-row>
+            <el-col>
+              <el-result :title="payInfo" :subTitle="'请使用支付宝扫一扫（' + payCycle + 's）'">
+                <template slot="icon">
+                  <VueQr :text="payUrl" :size="280" logoSrc="/sys/alipay.svg"></VueQr>
+                </template>
+              </el-result>
+            </el-col>
+          </el-row>
         </div>
       </div>
     </el-dialog>
@@ -272,7 +288,7 @@
       <div>
         <el-row>
           <el-col>
-            <el-result :title="rewardInfo" :subTitle="'请使用支付宝扫一扫（' + payCycle + 's）'">
+            <el-result :title="payInfo" :subTitle="'请使用支付宝扫一扫（' + payCycle + 's）'">
               <template slot="icon">
                 <VueQr :text="payUrl" :size="280" logoSrc="/sys/alipay.svg"></VueQr>
               </template>
@@ -318,12 +334,14 @@ export default {
       newsTime: "",
       showPasswordDialog: false,
       showRewardDialog: false,
-      rewardInfo: "",
+      payInfo: "",
       payCycle: 0,
       payUrl: "",
       payOrderId: 0,
       password: "",
       tips: "",
+      money: 0,
+      showPay: false,
       scrollTop: 0
     };
   },
@@ -412,9 +430,9 @@ export default {
         .then((res) => {
           // 匿名或登录
           if (res.data.userId !== 0) {
-            this.rewardInfo = `感谢[${this.$store.state.currentUser.username}]的支持`;
+            this.payInfo = `感谢[${this.$store.state.currentUser.username}]的支持`;
           } else {
-            this.rewardInfo = `感谢未登录的匿名读者`;
+            this.payInfo = `感谢未登录的匿名读者`;
           }
           this.payOrderId = res.data.id;
           this.payUrl = res.data.payUrl;
@@ -427,7 +445,7 @@ export default {
           // 监听付款
           let intervalId = setInterval(() => {
             this.payCycle = this.payCycle - 5;
-            if(this.payCycle < 0){
+            if (this.payCycle < 0) {
               clearInterval(intervalId);
               this.showRewardDialog = false;
               return;
@@ -435,7 +453,7 @@ export default {
             this.$http.get(this.$constant.baseURL + "/reward/order/get", {
               id: this.payOrderId,
               articleId: this.article.id
-            }, true)
+            })
               .then((res) => {
                 const payOrder = res.data;
                 // 未支付，继续监听
@@ -502,7 +520,110 @@ export default {
           });
         });
     },
-    goBack(){
+    doPay() {
+      if (this.showPay) {
+        return;
+      }
+      // 生成付款信息
+      this.$http.get(this.$constant.baseURL + "/article/order/create", {
+        articleId: this.id
+      })
+        .then((res) => {
+          // 匿名或登录
+          if (res.data.userId !== 0) {
+            this.payInfo = `感谢[${this.$store.state.currentUser.username}]的支持`;
+          } else {
+            this.payInfo = `检测到您未登录，支付完成后需要记住密码哦`;
+          }
+          this.payOrderId = res.data.id;
+          this.payUrl = res.data.payUrl;
+          this.payCycle = 300;
+          this.showPay = true;
+          // 手机端打开支付链接
+          if (this.$common.mobile()) {
+            window.open(this.payUrl, '_blank');
+          }
+          // 监听付款
+          let intervalId = setInterval(() => {
+            this.payCycle = this.payCycle - 5;
+            if (this.payCycle < 0) {
+              clearInterval(intervalId);
+              this.showRewardDialog = false;
+              return;
+            }
+            this.$http.get(this.$constant.baseURL + "/article/order/get", {
+              id: this.payOrderId,
+              articleId: this.id
+            })
+              .then((res) => {
+                const payOrder = res.data;
+                // 未支付，继续监听
+                if (payOrder.status === 0) {
+                  return;
+                }
+                clearInterval(intervalId);
+                this.showPay = false;
+                // 支付成功
+                if (payOrder.status === 1) {
+                  this.password = payOrder.note;
+                  this.$message({
+                    message: "支付完成！感谢您的支持！祝您一生平安！",
+                    type: "success"
+                  });
+                } else if (payOrder.status === 2) {
+                  this.$message({
+                    message: "您取消了支付！善人姥爷！您这是要抛下我嘛？",
+                    type: "warning"
+                  });
+                } else if (payOrder.status === 3) {
+                  this.$message({
+                    message: "支付超时！没关系哦，再来一次，咱可以等！",
+                    type: "warning"
+                  });
+                } else {
+                  this.$message({
+                    message: "支付失败！肯定是发生了什么不为人知的事情！",
+                    type: "error"
+                  });
+                }
+
+              })
+              .catch((error) => {
+                this.$message({
+                  message: error.message,
+                  type: "error"
+                });
+              });
+          }, 5000);
+        })
+        .catch((error) => {
+          this.$message({
+            message: error.message,
+          })
+        });
+    },
+    goBack() {
+      if (this.showPay) {
+        // 取消支付
+        this.showPay = false;
+        this.$http.post(this.$constant.baseURL + "/article/order/cancel", {
+          id: this.payOrderId,
+          actId: this.id
+        })
+          .then((res) => {
+            this.$message({
+              message: "啊!不要呀！",
+              type: "warning"
+            });
+          })
+          .catch((error) => {
+            this.$message({
+              message: error.message,
+              type: "error"
+            });
+          });
+        return;
+      }
       this.$router.go(-1);
     },
     submitPassword() {
@@ -655,16 +776,10 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          if (error.code === 1001 || error.code === 1002) {
-            if (!this.$common.isEmpty(password)) {
-              localStorage.removeItem("article_password_" + this.id);
-              this.$message({
-                message: "密码错误，请重新输入！",
-                type: "error",
-                customClass: "message-index"
-              });
-            }
-            this.tips = error.message;
+          localStorage.removeItem("article_password_" + this.id);
+          if (error.code === 1001) {
+            this.tips = error.data.tips;
+            this.money = error.data.money;
             this.showPasswordDialog = true;
           } else {
             this.$message({
@@ -672,8 +787,6 @@ export default {
               type: "error",
               customClass: "message-index"
             });
-            this.tips = error.message;
-            this.showPasswordDialog = false;
           }
         });
     },

@@ -21,6 +21,10 @@
         <el-input maxlength="30" v-model="article.articleTitle"></el-input>
       </el-form-item>
 
+      <el-form-item label="简介" prop="articleIntro">
+        <el-input maxlength="256" v-model="article.articleIntro"></el-input>
+      </el-form-item>
+
       <el-form-item label="视频链接" prop="videoUrl">
         <el-input maxlength="1000" v-model="article.videoUrl"></el-input>
       </el-form-item>
@@ -59,6 +63,10 @@
 
       <el-form-item v-if="article.viewStatus === false" label="密码提示" prop="tips">
         <el-input maxlength="60" v-model="article.tips"></el-input>
+      </el-form-item>
+
+      <el-form-item v-if="article.viewStatus === false" label="金额" prop="money">
+        <el-input type="number" maxlength="14" v-model="article.money"></el-input>
       </el-form-item>
 
       <el-form-item label="封面" prop="articleCover">
@@ -115,12 +123,14 @@
         id: this.$route.query.id,
         article: {
           articleTitle: "",
+          articleIntro: "",
           articleContent: "",
           commentStatus: true,
           recommendStatus: false,
           viewStatus: true,
           password: "",
           tips: "",
+          money: 0,
           articleCover: "/sys/poetize-next-home.png",
           videoUrl: "",
           sortId: null,

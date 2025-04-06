@@ -101,7 +101,7 @@
         </div>
         <!-- 内容 -->
         <div class="recent-post-desc">
-          {{ article.articleContent }}
+          {{ article.articleIntro }}
         </div>
         <!-- 分类 标签 -->
         <div class="sort-label">
