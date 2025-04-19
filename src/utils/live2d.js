@@ -51,7 +51,7 @@ function loadExternalResource(url, type) {
 }
 
 function initWidget(config) {
-  document.body.insertAdjacentHTML("beforeend", `<div id="waifu-toggle"><span>智能助理</span></div>`);
+  document.body.insertAdjacentHTML("beforeend", `<div id="waifu-toggle"><span>Poo ↑ </span></div>`);
   const toggle = document.getElementById("waifu-toggle");
   toggle.addEventListener("click", () => {
     toggle.classList.remove("waifu-toggle-active");
@@ -141,7 +141,7 @@ function loadWidget(config) {
     document.querySelector("#waifu-tool .fa-mouse-pointer").addEventListener("click", changeMouseAnimation);
     document.querySelector("#waifu-tool .fa-times").addEventListener("click", () => {
       localStorage.setItem("waifu-display", Date.now());
-      showMessage("那小的就退下啦~可以在左下角再唤醒我哟", 2000, 11);
+      showMessage("[Poo]小的就退下啦~可以在左下角再唤醒我哟", 2000, 11);
       document.getElementById("waifu").style.bottom = "-500px";
       setTimeout(() => {
         document.getElementById("waifu").style.display = "none";
