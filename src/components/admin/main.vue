@@ -17,13 +17,13 @@
       <div>
         <div class="history-title">总览</div>
         <div>
-          <div style="width: 400px;margin: 0 auto;display: flex;justify-content: center">
+          <div style="width: 100%;display: flex;justify-content: center">
             <div class="history-name" style="line-height: 35px">总访问量（每个IP每天记一次）:</div>
             <div style="color:var(--maxLightRed);font-weight: bold;font-size: 30px;line-height: 35px">
               {{historyInfo.ip_history_count}}
             </div>
           </div>
-          <div class="history-info" style="width: 640px">
+          <div class="history-info" style="width: 100%;display: flex;justify-content: center;">
             <div style="margin-right: 40px">
               <div class="history-name">省份访问TOP10</div>
               <div>
@@ -64,6 +64,18 @@
                     width="140">
                   </el-table-column>
                   <el-table-column
+                    prop="province"
+                    align="center"
+                    label="省"
+                    width="140">
+                  </el-table-column>
+                  <el-table-column
+                    prop="city"
+                    align="center"
+                    label="市"
+                    width="140">
+                  </el-table-column>
+                  <el-table-column
                     prop="num"
                     align="center"
                     label="数量"
@@ -86,7 +98,7 @@
               {{historyInfo.ip_count_today}}
             </div>
           </div>
-          <div class="history-info" style="width: 640px">
+          <div class="history-info" style="width: 100%;display: flex;justify-content: center;">
             <div style="margin-right: 40px">
               <div class="history-name">今日访问省份统计</div>
               <div>
@@ -131,6 +143,24 @@
                     label="用户"
                     width="200">
                   </el-table-column>
+                  <el-table-column
+                    prop="ip"
+                    align="center"
+                    label="IP"
+                    width="200">
+                  </el-table-column>
+                  <el-table-column
+                    prop="province"
+                    align="center"
+                    label="省"
+                    width="200">
+                  </el-table-column>
+                  <el-table-column
+                    prop="city"
+                    align="center"
+                    label="市"
+                    width="200">
+                  </el-table-column>
                 </el-table>
               </div>
             </div>
@@ -142,13 +172,13 @@
       <div>
         <div class="history-title">昨日访问</div>
         <div>
-          <div style="width: 250px;margin: 0 auto;display: flex;justify-content: center">
+          <div style="width:100%;margin: 0 auto;display: flex;justify-content: center">
             <div class="history-name" style="line-height: 35px">昨日访问量：</div>
             <div style="color:var(--maxLightRed);font-weight: bold;font-size: 30px;line-height: 35px">
               {{historyInfo.ip_count_yest}}
             </div>
           </div>
-          <div class="history-info" style="width: 300px">
+          <div class="history-info" style="width: 100%;display: flex;justify-content: center;">
             <div>
               <div class="history-name">昨日访问用户</div>
               <div class="history-avatar">
@@ -167,6 +197,24 @@
                     prop="username"
                     align="center"
                     label="用户"
+                    width="200">
+                  </el-table-column>
+                  <el-table-column
+                    prop="ip"
+                    align="center"
+                    label="IP"
+                    width="200">
+                  </el-table-column>
+                  <el-table-column
+                    prop="province"
+                    align="center"
+                    label="省"
+                    width="200">
+                  </el-table-column>
+                  <el-table-column
+                    prop="city"
+                    align="center"
+                    label="市"
                     width="200">
                   </el-table-column>
                 </el-table>
@@ -236,11 +284,11 @@
   }
 
   .history-title {
-    margin: 15px auto 15px;
-    width: 120px;
+    margin: 10px;
+    width: 100%;
     text-align: center;
     padding: 10px 20px;
-    background: var(--lightGreen);
+    background: rgba(31, 167, 76, 0.7);
     color: var(--white);
     font-weight: bold;
     border-radius: 5px;
