@@ -8,7 +8,7 @@ import constant from "./constant";
 
 
 // 注意：live2d_path 参数应使用绝对路径
-const live2d_path = constant.live2d_path;
+const live2d_path = "/sys/live2d/";
 
 // 加载 waifu.css live2d.min.js
 if (screen.width > 768) {
@@ -16,9 +16,14 @@ if (screen.width > 768) {
     loadExternalResource(live2d_path + "waifu.css", "css"),
     loadExternalResource(live2d_path + "live2d.min.js", "js")
   ]).then(() => {
+    let modelPath = localStorage.getItem("modelPath");
+    if (!modelPath) {
+      modelPath = constant.modelPath;
+    }
+
     initWidget({
       waifuPath: constant.baseURL + constant.waifuPath,
-      cdnPath: constant.cdnPath
+      modelPath: modelPath
     });
   });
 }
@@ -46,9 +51,7 @@ function loadExternalResource(url, type) {
 }
 
 function initWidget(config) {
-  document.body.insertAdjacentHTML("beforeend", `<div id="waifu-toggle">
-			<span>看板娘</span>
-		</div>`);
+  document.body.insertAdjacentHTML("beforeend", `<div id="waifu-toggle"><span>智能助理</span></div>`);
   const toggle = document.getElementById("waifu-toggle");
   toggle.addEventListener("click", () => {
     toggle.classList.remove("waifu-toggle-active");
@@ -75,26 +78,28 @@ function initWidget(config) {
 
 function loadWidget(config) {
   // 配置路径
-  let { waifuPath, cdnPath } = config;
-  if (!cdnPath.endsWith("/")) cdnPath += "/";
+  let { waifuPath, modelPath } = config;
   let modelList, idx = 0;
 
   // 插入html
   localStorage.removeItem("waifu-display");
   localStorage.removeItem("waifu-text");
-  document.body.insertAdjacentHTML("beforeend", `<div id="waifu">
+  document.body.insertAdjacentHTML("beforeend",
+    `<div id="waifu">
 			<div id="waifu-tips"></div>
 			<canvas id="live2d" width="800" height="800"></canvas>
       <!-- 工具 -->
 			<div id="waifu-tool">
-				<span class="fa fa-lg fa-comment"></span>
-				<span class="fa fa-lg fa-street-view"></span>
-				<span class="fa fa-lg fa-mouse-pointer"></span>
-				<span class="fa fa-lg fa-times"></span>
+				<span class="fa fa-lg fa-comment" title="听我说"></span>
+				<span class="fa fa-lg fa-street-view" title="换肤"></span>
+				<span class="fa fa-lg fa-mouse-pointer" title="鼠标特效"></span>
+				<span class="fa fa-lg fa-times" title="隐藏"></span>
 			</div>
 		</div>`);
   setTimeout(() => {
-    document.getElementById("waifu").style.bottom = 0;
+    const waifuDom = document.getElementById("waifu");
+    waifuDom.style.bottom = 0;
+    buildDrag(waifuDom);
   }, 0);
 
   // 检测用户活动状态，并在空闲时显示消息
@@ -136,7 +141,7 @@ function loadWidget(config) {
     document.querySelector("#waifu-tool .fa-mouse-pointer").addEventListener("click", changeMouseAnimation);
     document.querySelector("#waifu-tool .fa-times").addEventListener("click", () => {
       localStorage.setItem("waifu-display", Date.now());
-      showMessage("愿你有一天能与重要的人重逢。", 2000, 11);
+      showMessage("那小的就退下啦~可以在左下角再唤醒我哟", 2000, 11);
       document.getElementById("waifu").style.bottom = "-500px";
       setTimeout(() => {
         document.getElementById("waifu").style.display = "none";
@@ -161,10 +166,11 @@ function loadWidget(config) {
     document.querySelector("body").addEventListener("click", mouseAnimation);
   })();
 
-  // 欢迎页
+  // 欢迎语
   (function welcomeMessage() {
     let text;
-    if (location.pathname === "/") { // 如果是主页
+    if (location.pathname === "/") {
+      // 主页
       const now = new Date().getHours();
       if (now > 5 && now <= 7) text = "早上好！一日之计在于晨，美好的一天就要开始了。";
       else if (now > 7 && now <= 11) text = "上午好！工作顺利嘛，不要久坐，多起来走动走动哦！";
@@ -175,6 +181,7 @@ function loadWidget(config) {
       else if (now > 21 && now <= 23) text = ["已经这么晚了呀，早点休息吧，晚安～", "深夜时要爱护眼睛呀！"];
       else text = "你是夜猫子呀？这么晚还不睡觉，明天起的来嘛？";
     } else if (document.referrer !== "") {
+      //文章页
       const referrer = new URL(document.referrer),
         domain = referrer.hostname.split(".")[1];
       if (location.hostname === referrer.hostname) text = `欢迎阅读<span>「${document.title.split(" - ")[0]}」</span>`;
@@ -190,15 +197,44 @@ function loadWidget(config) {
 
   // 初始化模型
   (function initModel() {
-    loadModel("嘀嘀嘀嘀~");
-
     //加载自定义提示语
     fetch(waifuPath)
       .then(response => response.json())
       .then(result => {
 
+        //配置有变更时的标记
+        const waifuJsonCode = getHashCode(JSON.stringify(result));
+        const waifuJsonCodeOld = localStorage.getItem("waifuJsonCode");
+        if (waifuJsonCodeOld && waifuJsonCodeOld !== waifuJsonCode) {
+          //重刷模型位置
+          localStorage.removeItem("modelX");
+          localStorage.removeItem("modelY");
+          //重刷默认模型
+          if (result.defaultModel) {
+            localStorage.setItem("modelName", result.defaultModel);
+          }
+        }
+        localStorage.setItem("waifuJsonCode", waifuJsonCode);
+
+        //自定义模型地址
+        if (result.modelPath) {
+          modelPath = result.modelPath;
+          if (!modelPath.endsWith("/")) modelPath += "/";
+          localStorage.setItem("modelPath", modelPath);
+        }
+
+        //加载模型
+        loadModel();
+
+        //默认欢迎语
+        if (result.welcomeMsg) {
+          setTimeout(() => {
+            showMessage(result.welcomeMsg, 4000, 8);
+          }, 7000);
+        }
+
         //鼠标移动触发
-        if(result.mouseover){
+        if (result.mouseover) {
           window.addEventListener("mouseover", event => {
             for (let { selector, text } of result.mouseover) {
               if (!event.target.matches(selector)) continue;
@@ -209,9 +245,9 @@ function loadWidget(config) {
             }
           });
         }
-        
+
         //鼠标点击触发
-        if(result.click){
+        if (result.click) {
           window.addEventListener("click", event => {
             for (let { selector, text } of result.click) {
               if (!event.target.matches(selector)) continue;
@@ -222,10 +258,11 @@ function loadWidget(config) {
             }
           });
         }
-        
+
         //每年的指定时间段触发
-        if(result.seasons){
-          result.seasons.forEach(({ date, text }) => {
+        if (result.seasons) {
+          let msgCount = 1;
+          result.seasons.forEach(({ date, text, boot }) => {
             const now = new Date(),
               after = date.split("-")[0],
               before = date.split("-")[1] || after;
@@ -233,15 +270,79 @@ function loadWidget(config) {
               text = randomSelection(text);
               text = text.replace("{year}", now.getFullYear());
               messageArray.push(text);
+              if (boot) {
+                setTimeout(() => {
+                  showMessage(text, 4000, 8);
+                }, 4000 * msgCount + 7000);
+                msgCount++;
+              }
             }
           });
         }
       });
   })();
 
+  function buildDrag(draggable) {
+
+    let isDragging = false;
+    let startX, startY, initialX, initialY;
+
+    const modelX = localStorage.getItem("modelX");
+    const modelY = localStorage.getItem("modelY");
+    if (modelX && modelY) {
+      draggable.style.left = modelX;
+      draggable.style.top = modelY;
+    }
+
+    draggable.addEventListener('mousedown', (e) => {
+      isDragging = true;
+
+      startX = e.clientX;
+      startY = e.clientY;
+      initialX = draggable.offsetLeft;
+      initialY = draggable.offsetTop;
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    });
+
+    function onMouseMove(e) {
+      if (!isDragging) return;
+
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+
+      draggable.style.left = `${initialX + dx}px`;
+      draggable.style.top = `${initialY + dy}px`;
+    }
+
+    function onMouseUp() {
+      isDragging = false;
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+
+      localStorage.setItem("modelX", draggable.style.left);
+      localStorage.setItem("modelY", draggable.style.top);
+    }
+  }
+
+  //计算文本哈希摘要
+  function getHashCode(str) {
+    let h = 0x811C9DC5;
+    const prime = 0x01000193;
+    const TWO_POWER_32 = 4294967296;
+    for (let i = 0; i < str.length; i++) {
+      h = (h ^ str.charCodeAt(i)) * prime;
+    }
+    return (
+      (h >>> 0).toString(16).padStart(8, '0') +
+      ((h * TWO_POWER_32) >>> 0).toString(16).padStart(8, '0')
+    );
+  }
+
   // 模型集合
   async function loadModelList() {
-    const response = await fetch(`${cdnPath}model_list.json`);
+    const response = await fetch(`${modelPath}model_list.json`);
     const modelJson = await response.json();
     modelList = [];
     if (modelJson) {
@@ -252,15 +353,14 @@ function loadWidget(config) {
   }
 
   // 载入模型
-  async function loadModel(message) {
-    showMessage(message, 4000, 10);
+  async function loadModel() {
     if (!modelList) await loadModelList();
     let modelName = localStorage.getItem("modelName");
     if (!modelName) {
       modelName = "Potion-Maker/Pio";
       localStorage.setItem("modelName", modelName);
     }
-    loadlive2d("live2d", `${cdnPath}model/${modelName}/index.json`);
+    loadlive2d("live2d", `${modelPath}model/${modelName}/index.json`);
   }
 
   // 换人、换肤
@@ -268,7 +368,7 @@ function loadWidget(config) {
     if (!modelList) await loadModelList();
     const modelName = randomSelection(modelList);
     localStorage.setItem("modelName", modelName);
-    loadlive2d("live2d", `${cdnPath}model/${modelName}/index.json`);
+    loadlive2d("live2d", `${modelPath}model/${modelName}/index.json`);
     showMessage("我的新衣服好看嘛？", 4000, 10);
   }
 
@@ -281,7 +381,7 @@ function loadWidget(config) {
     } else {
       localStorage.setItem("showMouseAnimation", "0");
       document.querySelector("body").removeEventListener("click", mouseAnimation);
-      showMessage("今天你爱国了吗？", 6000, 9);
+      showMessage("已关闭鼠标点击动画", 6000, 9);
     }
   }
 
@@ -317,11 +417,13 @@ function loadWidget(config) {
     fetch(constant.hitokoto)
       .then(response => response.json())
       .then(result => {
-        const text = `这句一言来自 <span>「${result.from}」</span>，是 <span>${result.creator}</span> 在 hitokoto.cn 投稿的。`;
+        //const text = `这句一言来自 <span>「${result.from}」</span>，是 <span>${result.creator}</span> 在 hitokoto.cn 投稿的。`;
         showMessage(result.hitokoto, 6000, 9);
-        setTimeout(() => {
-          showMessage(text, 4000, 9);
-        }, 6000);
+        // setTimeout(() => {
+        //   showMessage(text, 4000, 9);
+        // }, 6000);
+      }).catch(() => {
+        showMessage(randomSelection(messageArray), 6000, 9);
       });
   }
 

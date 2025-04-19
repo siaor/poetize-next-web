@@ -11,9 +11,7 @@ export default {
 
   host: location.hostname + (location.port ? ':' + location.port : ''),
 
-  //live2d_path: "https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/",
-  live2d_path: "/sys/live2d/",
-  cdnPath: "https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/",
+  modelPath: "https://unpkg.com/@xiejiayu/live2d_api@1.0.1/",
   waifuPath: "/webInfo/getWaifuJson",
   hitokoto: "https://v1.hitokoto.cn",
   shehui: "https://api.oick.cn/yulu/api.php",

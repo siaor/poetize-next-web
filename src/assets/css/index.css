@@ -176,12 +176,6 @@ body {
     min-height: 60px;
 }
 
-#waifu-tool {
-    right: -10px;
-    bottom: 20px;
-    top: unset;
-}
-
 #waifu #live2d {
     height: 250px;
     width: 250px;
