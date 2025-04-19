@@ -205,17 +205,19 @@ function loadWidget(config) {
         //配置有变更时的标记
         const waifuJsonCode = getHashCode(JSON.stringify(result));
         const waifuJsonCodeOld = localStorage.getItem("waifuJsonCode");
-        if (waifuJsonCodeOld && waifuJsonCodeOld !== waifuJsonCode) {
+        if (!waifuJsonCodeOld || (waifuJsonCodeOld && waifuJsonCodeOld !== waifuJsonCode)) {
           //重刷模型位置
           localStorage.removeItem("modelX");
           localStorage.removeItem("modelY");
+
           //重刷默认模型
           if (result.defaultModel) {
             localStorage.setItem("modelName", result.defaultModel);
           }
+          
+          localStorage.setItem("waifuJsonCode", waifuJsonCode);
         }
-        localStorage.setItem("waifuJsonCode", waifuJsonCode);
-
+        
         //自定义模型地址
         if (result.modelPath) {
           modelPath = result.modelPath;
