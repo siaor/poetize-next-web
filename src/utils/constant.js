@@ -1,10 +1,4 @@
 export default {
-  // 测试环境，todo:抽离到系统配置
-  //baseURL: "http://localhost:5241",
-  //imBaseURL: "http://localhost:81/im",
-  //webURL: "http://localhost",
-
-  // 生产环境
   baseURL: location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : '') + "/api",
   imBaseURL: location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : '') + "/im",
   webURL: location.protocol + "//" + location.hostname + (location.port ? ':' + location.port : ''),

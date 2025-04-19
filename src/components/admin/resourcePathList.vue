@@ -71,7 +71,7 @@
                destroy-on-close
                center>
       <div>
-        <uploadPicture :isAdmin="true" :prefix="resourcePath.type + 'Cover'" @addPicture="addPicture" :maxSize="2"
+        <uploadPicture :isAdmin="true" :prefix="resourcePath.type + 'Cover'" @addPicture="addPicture" :maxSize="10"
                        :maxNumber="1"></uploadPicture>
       </div>
     </el-dialog>
@@ -84,7 +84,7 @@
                destroy-on-close
                center>
       <div>
-        <uploadPicture :isAdmin="true" :prefix="resourcePath.type + 'Url'" @addPicture="addFile" :maxSize="10"
+        <uploadPicture :isAdmin="true" :prefix="resourcePath.type + 'Url'" @addPicture="addFile" :maxSize="0"
                        :maxNumber="1" :listType="'text'" :accept="'image/*, video/*, audio/*'"></uploadPicture>
       </div>
     </el-dialog>

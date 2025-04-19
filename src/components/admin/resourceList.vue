@@ -102,8 +102,8 @@
         </div>
         <uploadPicture :isAdmin="true" :prefix="pagination.resourceType" @addPicture="addFile"
                        :storeType="storeType"
-                       :listType="'text'" :accept="'image/*, video/*, audio/*'"
-                       :maxSize="100" :maxNumber="10"></uploadPicture>
+                       :listType="'text'" :accept="'image/*, video/*, audio/*, application/*, text/*'"
+                       :maxSize="0" :maxNumber="10"></uploadPicture>
       </div>
     </el-dialog>
   </div>

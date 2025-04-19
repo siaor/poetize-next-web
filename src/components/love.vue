@@ -402,7 +402,7 @@
                  destroy-on-close
                  center>
         <div>
-          <uploadPicture :prefix="'love/' + pictureType" @addPicture="addPicture" :maxSize="2"
+          <uploadPicture :prefix="'love/' + pictureType" @addPicture="addPicture" :maxSize="10"
                          :maxNumber="1"></uploadPicture>
         </div>
       </el-dialog>

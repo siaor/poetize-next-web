@@ -80,7 +80,7 @@
                     fit="cover"></el-image>
         </div>
         <uploadPicture :isAdmin="true" :prefix="'articleCover'" style="margin-top: 10px" @addPicture="addArticleCover"
-                       :maxSize="2"
+                       :maxSize="10"
                        :maxNumber="1"></uploadPicture>
       </el-form-item>
       <el-form-item label="分类" prop="sortId">
