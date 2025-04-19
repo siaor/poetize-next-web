@@ -59,7 +59,7 @@
                          :maxNumber="1"></uploadPicture>
         </el-form-item>
 
-        <el-form-item label="提示" prop="waifuJson">
+        <el-form-item label="Poo配置" prop="waifuJson">
           <div style="display: flex">
             <el-input :disabled="disabled" :rows="6" type="textarea" v-model="webInfo.waifuJson"></el-input>
             <i class="el-icon-edit my-icon" @click="disabled = !disabled"></i>

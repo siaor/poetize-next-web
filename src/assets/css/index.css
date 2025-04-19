@@ -166,7 +166,7 @@ body {
 
 /* 看板娘 */
 #waifu-toggle, #waifu {
-    z-index: 100;
+    z-index: 9999;
 }
 
 #waifu-tips {

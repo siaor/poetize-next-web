@@ -201,7 +201,6 @@ function loadWidget(config) {
     fetch(waifuPath)
       .then(response => response.json())
       .then(result => {
-
         //配置有变更时的标记
         const waifuJsonCode = getHashCode(JSON.stringify(result));
         const waifuJsonCodeOld = localStorage.getItem("waifuJsonCode");
@@ -214,10 +213,18 @@ function loadWidget(config) {
           if (result.defaultModel) {
             localStorage.setItem("modelName", result.defaultModel);
           }
-          
+
+          //是否隐藏
+          if (result.isHidden) {
+            localStorage.setItem("waifu-display", Date.now());
+            document.getElementById("waifu").style.bottom = "-500px";
+            document.getElementById("waifu").style.display = "none";
+            document.getElementById("waifu-toggle").classList.add("waifu-toggle-active");
+          }
+
           localStorage.setItem("waifuJsonCode", waifuJsonCode);
         }
-        
+
         //自定义模型地址
         if (result.modelPath) {
           modelPath = result.modelPath;
@@ -394,7 +401,7 @@ function loadWidget(config) {
     idx = (idx + 1) % list.length;
     let x = e.pageX, y = e.pageY;
     span.css({
-      "z-index": 1000,
+      "z-index": 9999,
       "top": y - 20,
       "left": x,
       "position": "absolute",
@@ -419,11 +426,7 @@ function loadWidget(config) {
     fetch(constant.hitokoto)
       .then(response => response.json())
       .then(result => {
-        //const text = `这句一言来自 <span>「${result.from}」</span>，是 <span>${result.creator}</span> 在 hitokoto.cn 投稿的。`;
         showMessage(result.hitokoto, 6000, 9);
-        // setTimeout(() => {
-        //   showMessage(text, 4000, 9);
-        // }, 6000);
       }).catch(() => {
         showMessage(randomSelection(messageArray), 6000, 9);
       });
